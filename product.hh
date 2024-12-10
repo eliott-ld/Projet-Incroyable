@@ -8,9 +8,9 @@ class Product
  
 {
  public:
-  Worker();
-  void currentJob()
-  void assignJob()
+  Product();
+  
+
 
 protected:
 
