@@ -4,11 +4,11 @@
 /**
  * Represents one Worker
  */
-class Worker
+class Job : public Worker
  
 {
  public:
-  Worker();
+  Job();
   void currentJob()
   void assignJob()
 

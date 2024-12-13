@@ -2,18 +2,18 @@
 #pragma once
 
 /**
- * Represents all kinds of products
+ * Represents all kinds of items
  */
-class Product
+class Items : public Company
  
 {
  public:
-  Product();
+  Item();
   
 
 
 protected:
-
+  float _buyPrice;
   float _sellPrice;
   float _rawMaterials;        //kind of material
   float _amountRawMaterial    //in kg
