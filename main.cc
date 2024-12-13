@@ -46,7 +46,8 @@ int main(){
         //PRODUCTION
         printf("2. Produire des produits\n");
         printf("Souhaitez-vous changer la production?\n  1(OUI) ou 0(NON) ?\n");
-
+        scanf("%d", choix);
+        if(choix==1){
 
 
 
