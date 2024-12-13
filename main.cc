@@ -23,6 +23,10 @@ int main(){
         //MATIERE PREMIERE
         printf("1. Souhaitez-vous acheter des matières premières ?\n 1(OUI) ou 0(NON) ?\n");
         scanf("%d", choix);
+        while ((choix != 0)||(choix !=1)){
+            printf("Veuillez choisir une option valide (0 ou 1)\n  Souhaitez-vous acheter des matières premières ?\n");
+            scanf("%d", choix);
+        }
         if(choix==1){
             printf("Quelle de matière première voulez-vous acheter ?\n");
             printf("0. Metal\n 1. Plastique\n");
@@ -33,10 +37,13 @@ int main(){
                 metal.buyRawMaterials(quantity);
             }
             
-            else{
+            if (choix == 1){
                 printf("Combien de kg de plastique voulez-vous acheter ?\n");
                 scanf("%d", quantity);
                 metal.buyRawMaterials(quantity);
+            }
+            else{
+                printf("Veuillez choisir une option valide (0 ou 1)\n");
             }
             
         }
