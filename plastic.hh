@@ -7,6 +7,6 @@ class plastic : public rawMaterial {
   plastic();
   
 protected:
-    str type; //basic et recycled
+    std::string type; //basic et recycled
     float price_table;    //map : product / price
 };
