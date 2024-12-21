@@ -9,8 +9,9 @@ class Worker
 {
  public:
   Worker();
-  void currentJob()
-  void assignJob()
+  bool IsWorking();
+  void currentJob();
+  void assignJob();
 
 protected:
 

@@ -5,10 +5,14 @@
  * a raw Material can be bought and used to make finished products
  */
 
-class rawMaterial : public Items {
+class RawMaterial : public Items {
  public:
-  rawMaterial();
-  
+  RawMaterial();
+  float getNbRawMaterials(){return _NbRawMaterials;}
+  float getPriceTable(){return _price_table;}
+  std::string getMaterialType(){return _MaterialType;}
 protected:
-    float price_table;    //map : product / price
+    std::string _MaterialType;
+    float _price_table;    //map : product / price
+    float _NbRawMaterials;
 };

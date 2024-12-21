@@ -2,11 +2,10 @@
 #pragma once
 
 
-class plastic : public rawMaterial {
+class Plastic : public RawMaterial {
  public:
-  plastic();
-  
+  Plastic();
+  std::string getPlasticType(){return _PlasticType;}
 protected:
-    std::string type; //basic et recycled
-    float price_table;    //map : product / price
+    std::string _PlasticType; //basic et recycled
 };

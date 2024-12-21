@@ -1,12 +1,9 @@
 #include "rawMaterials.hh"
 #pragma once
 
-
-class metal : public rawMaterial {
+class Metal : public RawMaterial {
  public:
-  metal();
-  
+  Metal();
 protected:
-    str type; //aluminium or steel
-    float price_table;    //map : product / price
+  //il hérite des attributs de rawMaterials
 };
