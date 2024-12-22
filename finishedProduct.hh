@@ -6,9 +6,11 @@
  */
 
 class FinishedProduct : public Items {
- public:
+public:
   FinishedProduct();
-  
+
+  void sell();
+
 protected:
-    float price_table;    //map : product / price
+  float price_table; // map : product / price
 };

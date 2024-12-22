@@ -1,11 +1,13 @@
-#include "rawMaterials.hh"
 #pragma once
 
+#include "rawMaterials.hh"
+#include <string>
 
 class Plastic : public RawMaterial {
- public:
-  Plastic();
-  std::string getPlasticType(){return _PlasticType;}
+public:
+  Plastic(std::string materialType, int nbRawMaterials);
+  std::string getPlasticType() { return _PlasticType; }
+
 protected:
-    std::string _PlasticType; //basic et recycled
+  std::string _PlasticType; // basic et recycled
 };

@@ -1,9 +1,10 @@
-#include "rawMaterials.hh"
 #pragma once
+#include "rawMaterials.hh"
 
 class Metal : public RawMaterial {
- public:
-  Metal();
+public:
+  Metal(std::string materialType, int nbRawMaterials);
+
 protected:
-  //il hérite des attributs de rawMaterials
+  // il hérite des attributs de rawMaterials
 };

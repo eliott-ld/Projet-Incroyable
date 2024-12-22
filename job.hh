@@ -14,5 +14,7 @@ class Job : public Worker
 
 protected:
 
+  int _daySalary = 50;
+
   
 };
