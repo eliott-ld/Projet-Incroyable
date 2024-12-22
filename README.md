@@ -2,4 +2,4 @@
 
 ## Demo
 
-[](./output.gif)
+![](./output.gif)
