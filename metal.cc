@@ -1,6 +1,6 @@
 #include "metal.hh"
 
-Metal::Metal(std::string materialType, int nbRawMaterials) {
-  _materialType = materialType;
+Metal::Metal(int nbRawMaterials) {
+  _materialType = "metal";
   _nbRawMaterials = nbRawMaterials;
 }

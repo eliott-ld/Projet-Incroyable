@@ -1,6 +1,6 @@
 #include "plastic.hh"
 
-Plastic::Plastic(std::string materialType, int nbRawMaterials) {
-  _materialType = materialType;
+Plastic::Plastic(int nbRawMaterials) {
+  _materialType = "plastic";
   _nbRawMaterials = nbRawMaterials;
 }

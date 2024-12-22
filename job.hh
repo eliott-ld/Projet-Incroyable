@@ -1,20 +1,19 @@
-#include "company.hh"
+#include "finishedProduct.hh"
+#include "rawMaterials.hh"
+#include <vector>
 #pragma once
 
-/**
- * Represents one Worker
- */
-class Job : public Worker
- 
-{
- public:
-  Job();
-  void currentJob()
-  void assignJob()
+enum class Jobs {
+  CRAFT_RUBBER,
+  CRAFT_PAPERCLIP,
+  ASSEMBLE_STAPLER,
+  ASSEMBLE_SCISSORS
+};
 
-protected:
-
-  int _daySalary = 50;
-
-  
+class Job {
+public:
+  Job(Jobs job);
+  Jobs job;
+  std::vector<RawMaterial> input;
+  FinishedProduct output;
 };

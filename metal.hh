@@ -3,7 +3,7 @@
 
 class Metal : public RawMaterial {
 public:
-  Metal(std::string materialType, int nbRawMaterials);
+  Metal(int nbRawMaterials);
 
 protected:
   // il hérite des attributs de rawMaterials

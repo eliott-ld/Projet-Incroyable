@@ -5,7 +5,7 @@
 
 class Plastic : public RawMaterial {
 public:
-  Plastic(std::string materialType, int nbRawMaterials);
+  Plastic(int nbRawMaterials);
   std::string getPlasticType() { return _PlasticType; }
 
 protected:

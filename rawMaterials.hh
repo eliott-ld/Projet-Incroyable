@@ -30,6 +30,9 @@ public:
       return 0.2;
   }
 
+  void add(int nb) { _nbRawMaterials += nb; }
+  void remove(int nb) { _nbRawMaterials -= nb; }
+
 protected:
   std::string _materialType;
   static std::map<std::string, float> _price_table; // map : product / price

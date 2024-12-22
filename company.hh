@@ -3,6 +3,11 @@
 /**
  * Represents the Company
  */
+#include "finishedProduct.hh"
+#include "metal.hh"
+#include "plastic.hh"
+#include "worker.hh"
+#include <vector>
 class Company
 
 {
@@ -13,12 +18,23 @@ public:
   // maybe fireworker();
   int getLevel() { return _level; }
   float getBalance() { return _money; }
-  int getNbEmployees() { return _nb_employees; }
+  int getNbEmployees() { return _workers.size(); }
+  std::vector<Worker> getWorker() { return _workers; }
+  int priceRawMaterials(std::string material, int nb);
+  void buyRawMaterials(std::string material, int nb);
+  void produce();
+  void add_product(FinishedProduct product);
+  std::vector<FinishedProduct> getStorage() { return storage; }
+
+  Metal metal;
+  Plastic plastic;
 
 protected:
   int _level;
   int _age;
   // maybe _nb_employees variable statique
-  int _nb_employees;
+  std::vector<Worker> _workers;
   float _money;
+  // inventaire vendu à la fin de la semaine
+  std::vector<FinishedProduct> storage;
 };
