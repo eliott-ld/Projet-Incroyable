@@ -153,3 +153,25 @@ void Jeu::run() {
     std::cin >> _start;
   }
 }
+
+
+void Jeu::increaseLevel() {
+    switch (Company.getBalance()) {
+        case 0 ... 200:
+            Company.setLevel(1);
+            break;
+        case 201 ... 350:
+            Company.setLevel(2);
+            break;
+        case 351 ... 500:
+            Company.setLevel(3);
+            break;
+        case 501 ... 800:
+            Company.setLevel(4);
+            break;
+        default:
+            Company.setLevel(5);
+            std::cout << "Félicitations Grand Industriel !!! Vous avez atteint le niveau maximum !\n";
+            break;
+    }
+}

@@ -25,16 +25,17 @@ public:
   void produce();
   void add_product(FinishedProduct product);
   std::vector<FinishedProduct> getStorage() { return storage; }
-
+  void setLevel(int level) { _level = level; }
+  
   Metal metal;
   Plastic plastic;
 
 protected:
   int _level;
   int _age;
-  // maybe _nb_employees variable statique
   std::vector<Worker> _workers;
   float _money;
+
   // inventaire vendu à la fin de la semaine
   std::vector<FinishedProduct> storage;
 };

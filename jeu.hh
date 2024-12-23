@@ -12,7 +12,7 @@ public:
   Jeu(int initial_nb_employees, float initial_money);
   void Tour();
   void run();
-
+  void increaseLevel();
 private:
   Company _company;
   bool _start;

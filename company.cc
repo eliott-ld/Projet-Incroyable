@@ -5,7 +5,13 @@
 Company::Company(int nb_employees, float money)
     : metal(0), plastic(0), _level(0), _age(0), _workers{Worker()},
       _money(money) {}
-void Company::hireWorker() {}
+
+
+
+void Company::hireWorker() {
+  _workers.push_back(Worker());
+  _money -= 100;
+}
 
 int Company::priceRawMaterials(std::string material, int nb) {
   if (material == "plastic") {
