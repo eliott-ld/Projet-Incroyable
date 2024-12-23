@@ -25,6 +25,7 @@ public:
 
   FinishedProductType type;
 
+  int getQuantity() const { return quantity; }
   std::string to_string() const {
     switch (type) {
     case FinishedProductType::RUBBER:

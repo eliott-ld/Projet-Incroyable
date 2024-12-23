@@ -6,8 +6,6 @@ Company::Company(int nb_employees, float money)
     : metal(0), plastic(0), _level(0), _age(0), _workers{Worker()},
       _money(money) {}
 
-
-
 void Company::hireWorker() {
   _workers.push_back(Worker());
   _money -= 100;
@@ -59,4 +57,14 @@ void Company::produce() {
 
 void Company::add_product(FinishedProduct product) {
   storage.push_back(product);
+}
+
+float Company::sellStorage() {
+  auto res = 0;
+  for (auto product : storage) {
+    res += product.price();
+  }
+  storage.clear();
+  _money += res;
+  return res;
 }

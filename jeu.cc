@@ -14,17 +14,25 @@ void Bienvenue() {
                "première et la vente de ces produits est automatique\n";
 }
 
-int choice(std::string Phrase) {
+int choice(const std::string Phrase) {
   int choix_utilisateur = -1;
   std::cout << Phrase << std::endl;
-  std::cin >> choix_utilisateur;
-  while ((choix_utilisateur != 0) && (choix_utilisateur != 1)) {
-    std::cout << "Veuillez choisir une option valide.\n" << Phrase << std::endl;
-    std::cin >> choix_utilisateur;
-  }
-  return choix_utilisateur;
-}
 
+  while (true) {
+    if (!(std::cin >> choix_utilisateur)) {
+      if (std::cin.eof()) {
+        std::cout << "\n👋🤓 Au revoir\n";
+        exit(1);
+      }
+      std::cin.clear();
+    } else if (choix_utilisateur == 0 || choix_utilisateur == 1) {
+      return choix_utilisateur;
+    } else {
+      std::cout << "Veuillez choisir une option valide (0 ou 1).\n"
+                << Phrase << std::endl;
+    }
+  }
+}
 void Jeu::Tour() {
   std::cout << "Tour " << _tour << "\n";
   std::cout << "Vous etes actuellement au niveau : " << _company.getLevel()
@@ -142,36 +150,36 @@ void Jeu::run() {
     _company.produce();
     // FIN DU TOUR
     std::cout << "4. Bilan du jour\n";
-    std::cout << "\tItems produits";
+    std::cout << "\tItems produits\n";
     for (auto product : _company.getStorage()) {
-      std::cout << "\t" << product.to_string()
-                << " Prix total: " << product.price() << "\n";
+      std::cout << "\t" << product.getQuantity() << "" << product.to_string()
+                << " Prix total: " << product.price() << std::endl;
     }
-    std::cout << std::endl;
+    auto revenue = _company.sellStorage();
+    std::cout << "Vos gains d'aujourd'hui: " << revenue << std::endl;
 
     std::cout << "Voulez-vous continuer ? (1/0)\n";
     std::cin >> _start;
   }
 }
 
-
-void Jeu::increaseLevel() {
-    switch (Company.getBalance()) {
-        case 0 ... 200:
-            Company.setLevel(1);
-            break;
-        case 201 ... 350:
-            Company.setLevel(2);
-            break;
-        case 351 ... 500:
-            Company.setLevel(3);
-            break;
-        case 501 ... 800:
-            Company.setLevel(4);
-            break;
-        default:
-            Company.setLevel(5);
-            std::cout << "Félicitations Grand Industriel !!! Vous avez atteint le niveau maximum !\n";
-            break;
-    }
-}
+// void Jeu::increaseLevel() {
+//     switch (Company.getBalance()) {
+//         case 0 ... 200:
+//             Company.setLevel(1);
+//             break;
+//         case 201 ... 350:
+//             Company.setLevel(2);
+//             break;
+//         case 351 ... 500:
+//             Company.setLevel(3);
+//             break;
+//         case 501 ... 800:
+//             Company.setLevel(4);
+//             break;
+//         default:
+//             Company.setLevel(5);
+//             std::cout << "Félicitations Grand Industriel !!! Vous avez
+//             atteint le niveau maximum !\n"; break;
+//     }
+// }

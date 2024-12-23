@@ -1,8 +1,4 @@
-#include "company.hh"
 #include "jeu.hh"
-#include "metal.hh"
-#include "plastic.hh"
-#include <iostream>
 
 const int INITIAL_NB_EMPLOYEES = 1;
 const float INITIAL_MONEY = 100;
