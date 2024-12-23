@@ -34,9 +34,14 @@ int choice(const std::string Phrase) {
   }
 }
 void Jeu::Tour() {
+  auto level = _company.getLevel();
+  if (level == 5) {
+    std::cout << "Félicitations Grand Industriel !!! Vous avez atteint le "
+                 "niveau maximum !\n ";
+    exit(0);
+  }
   std::cout << "Tour " << _tour << "\n";
-  std::cout << "Vous etes actuellement au niveau : " << _company.getLevel()
-            << "\n";
+  std::cout << "Vous etes actuellement au niveau : " << level << "\n";
   std::cout << "Vous avez actuellement " << _company.getBalance()
             << " pièces magiques\n";
   std::cout << "Vous avez actuellement " << _company.getNbEmployees()
@@ -158,28 +163,10 @@ void Jeu::run() {
     auto revenue = _company.sellStorage();
     std::cout << "Vos gains d'aujourd'hui: " << revenue << std::endl;
 
+    auto salaries = _company.payWorkers();
+    std::cout << "Coût des salaire d'aujourd'hui: " << salaries;
+
     std::cout << "Voulez-vous continuer ? (1/0)\n";
     std::cin >> _start;
   }
 }
-
-// void Jeu::increaseLevel() {
-//     switch (Company.getBalance()) {
-//         case 0 ... 200:
-//             Company.setLevel(1);
-//             break;
-//         case 201 ... 350:
-//             Company.setLevel(2);
-//             break;
-//         case 351 ... 500:
-//             Company.setLevel(3);
-//             break;
-//         case 501 ... 800:
-//             Company.setLevel(4);
-//             break;
-//         default:
-//             Company.setLevel(5);
-//             std::cout << "Félicitations Grand Industriel !!! Vous avez
-//             atteint le niveau maximum !\n"; break;
-//     }
-// }

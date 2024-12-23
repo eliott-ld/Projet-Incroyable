@@ -3,8 +3,8 @@
 #include "worker.hh"
 
 Company::Company(int nb_employees, float money)
-    : metal(0), plastic(0), _level(0), _age(0), _workers{Worker()},
-      _money(money) {}
+    : metal(0), plastic(0), _age(0), _money(money), _accumulatedMoney(0),
+      _workers{Worker()} {}
 
 void Company::hireWorker() {
   _workers.push_back(Worker());
@@ -65,6 +65,37 @@ float Company::sellStorage() {
     res += product.price();
   }
   storage.clear();
-  _money += res;
+  addMoney(res);
   return res;
+}
+
+void Company::addMoney(float newMoney) {
+  _money += newMoney;
+  _accumulatedMoney += newMoney;
+}
+
+int Company::getLevel() {
+  switch ((int)_accumulatedMoney) {
+  case 0 ... 200:
+    return 1;
+    break;
+  case 201 ... 350:
+    return 2;
+    break;
+  case 351 ... 500:
+    return 3;
+    break;
+  case 501 ... 800:
+    return 4;
+    break;
+  default:
+    return 5;
+  }
+}
+
+float Company::payWorkers() {
+  const int salary = 50;
+  float sum = _workers.size() * salary;
+  _money -= sum;
+  return sum;
 }
