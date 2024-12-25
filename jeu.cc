@@ -131,8 +131,9 @@ int choice(const std::string Phrase) {
 void Jeu::Tour() {
   auto level = _company.getLevel();
   if (level == 5) {
-    std::cout << "Félicitations Grand Industriel !!! Vous avez atteint le "
-                 "niveau maximum !\n ";
+    printBoxedText("Félicitations Grand Industriel !!! Vous avez atteint le "
+                   "niveau maximum ! 🫡 ",
+                   "\e[1;93m");
     exit(0);
   }
 
@@ -260,10 +261,8 @@ void Jeu::run() {
       }
 
       _company.getWorker()[employee_id].assignJob(jobs_list[job_id]);
-
-      std::cout << "Souhaitez-vous continuer de changer la production?\n  "
-                   "1(OUI) ou 0(NON) ?\n";
-      std::cin >> choix;
+      choix = choice("Souhaitez-vous continuer de changer la production?\n"
+                     "1(OUI) ou 0(NON) ?");
     }
 
     std::cout << "-------------------------------------------------------------"
@@ -294,7 +293,6 @@ void Jeu::run() {
       break;
     }
 
-    std::cout << "Voulez-vous continuer ? (1/0)\n";
-    std::cin >> _start;
+    _start = choice("Voulez-vous continuer ? (1/0)");
   }
 }
