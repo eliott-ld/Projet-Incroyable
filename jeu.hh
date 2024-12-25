@@ -9,12 +9,15 @@ void Bienvenue();
 
 class Jeu {
 public:
-  Jeu(int initial_nb_employees, float initial_money);
+  Jeu(int initial_nb_employees, float initial_money, bool dev_mode);
   void Tour();
   void run();
   void increaseLevel();
+  void ask_material(std::string material);
+
 private:
   Company _company;
   bool _start;
   int _tour;
+  bool _dev_mode;
 };
