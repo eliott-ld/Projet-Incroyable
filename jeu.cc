@@ -1,8 +1,11 @@
 #include "company.hh"
 #include "jeu.hh"
 #include "text_box.hh"
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <sstream>
+#include <string>
 #include <thread>
 
 int load(std::string message, int time_secs) {
@@ -21,6 +24,58 @@ int load(std::string message, int time_secs) {
   return 0;
 }
 
+void loading_screen() {
+  std::string original = "Game Loading...\n"
+                         "\n\n\n\n"
+                         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀@@@@@@@@@@\n"
+                         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀@@@@@@@@ \n"
+                         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀@@@⠀@@⠀ \n"
+                         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⡇⠀⢸⣿⠀ \n"
+                         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⡇⠀⢸⣿⠀ \n"
+                         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⡇⠀⢸⣿⠀ \n"
+                         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⢸⣿⡇⠀⢸⣿⠀ \n"
+                         "⠀⠀⢠⣷⡀⠀⠀⠀⠀⣼⣦⠀⠀⠀⠀⢠⣷⣄⠀⠀⠀⠀⢸⣿⡇⠀⢸⣿⠀ \n"
+                         "⠀⠀⢸⣿⣿⣆⠀⠀⠀⣿⣿⣷⡀⠀⠀⢸⣿⣿⣧⠀⠀⠀⢸⣿⡇⠀⢸⣿⠀ \n"
+                         "⠀⠀⣾⣿⣿⣿⣷⡀⢠⣿⣿⣿⣿⣆⠀⣼⣿⣿⣿⣷⣄⠀⢸⣿⡇⠀⢸⣿⠀ \n"
+                         "⠀⠀⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣶⣼⣿⣧⣤⣾⣿⠀ \n"
+                         "⠀⠀⣿⡟⠉⠉⢹⣿⡏⠉⠉⢻⣿⠉⠉⠉⣿⣿⠉⠉⢹⣿⣿⣿⣿⣿⣿⣿⠀ \n"
+                         "⠀⠀⣿⣷⣶⣶⣾⣿⣷⣶⣶⣾⣿⣶⣶⣶⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⠀ \n"
+                         "⠀⠀⣿⡏⠉⠉⢹⣿⡏⠉⠉⢹⣿⠉⠉⠉⣿⣿⠉⠉⢹⣿⣿⣿⣿⣿⣿⣿⠀ \n"
+                         "⠀⠀⣿⣿⣶⣶⣾⣿⣷⣶⣶⣿⣿⣷⣶⣾⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⠀ \n"
+                         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \n";
+  std::string text = original;
+
+  // Seed random number generator
+  std::srand(std::time(nullptr));
+
+  // Duration for the animation in milliseconds
+  const int duration = 5000;    // 3 seconds
+  const int tickDuration = 100; // 100 ms per frame
+  const int iterations = duration / tickDuration;
+
+  for (int i = 0; i < iterations; ++i) {
+    // Modify the smoke (top rows with '@' characters)
+    for (size_t j = 0; j < text.length(); ++j) {
+      if (original[j] == '@') {
+        text[j] = (std::rand() % 2 == 0) ? '@' : ' ';
+      }
+    }
+
+    // Clear the console
+    std::cout << "\x1B[2J\x1B[H"; // ANSI escape codes to clear screen and reset
+                                  // cursor
+
+    // Print the updated text
+    // std::cout << text << std::endl;
+    printBoxedText(text, "\e[0;33m");
+
+    // Wait for the next frame
+    std::this_thread::sleep_for(std::chrono::milliseconds(tickDuration));
+  }
+  // Clear the console
+  std::cout << "\x1B[2J\x1B[H"; // ANSI escape codes to clear screen and reset
+                                // cursor
+}
 void Bienvenue() {
   const std::string text =
       "👋 Bienvenue dans le jeu Fantastic Factory\n"
@@ -130,6 +185,7 @@ void Jeu::ask_material(std::string material) {
 }
 
 void Jeu::run() {
+  loading_screen();
   if (_tour == 0) {
     Bienvenue();
   }
