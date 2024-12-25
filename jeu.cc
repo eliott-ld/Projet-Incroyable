@@ -2,6 +2,7 @@
 #include "jeu.hh"
 #include "metal.hh"
 #include "plastic.hh"
+#include "text_box.hh"
 #include <iostream>
 #include <thread>
 
@@ -22,19 +23,19 @@ int load(std::string message, int time_secs) {
 }
 
 void Bienvenue() {
-  std::cout << "👋 Bienvenue dans le jeu Fantastic Factory 🏭️ Bonne production "
-               "! 🤩\n";
-  std::cout
-      << "📜 Règles du jeu : Vous etes propiétaire d'une usine de production. "
-         "Vous fournissez des supermarchés ayant une demande infinie !\n";
-  std::cout << "🫡 Vous devez manufacturer des produits à partir de matière "
-               "première et la vente de ces produits est automatique 🤑\n";
+  const std::string text =
+      "👋 Bienvenue dans le jeu Fantastic Factory\n"
+      "📜 Règles du jeu : Vous etes propiétaire d'une usine de production. "
+      "Vous fournissez des supermarchés ayant une demande infinie !\n"
+      " 🫡 Vous devez manufacturer des produits à partir de matière "
+      "première et la vente de ces produits est automatique 🤑\n"
 
-  std::cout << "🛑 Attention vous ne devez pas trop vous endetter !   "
-               "Si vous allez à -200 pièces magiques, vous perdez 😿\n";
+      "🛑 Attention vous ne devez pas trop vous endetter !   "
+      "Si vous allez à -200 pièces magiques, vous perdez 😿\n";
+  printBoxedText(text);
 }
 void game_over() {
-
+  // clang-format off
   std::cout << 
 " ░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓██████████████▓▒░░▒▓████████▓▒░       ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓███████▓▒░ \n"
 "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░\n"
@@ -43,12 +44,13 @@ void game_over() {
 "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▓█▓▒░ ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░\n"
 "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▓█▓▒░ ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░\n"
 " ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░       ░▒▓██████▓▒░   ░▒▓██▓▒░  ░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░\n"
- << std::endl;                                                                                                           
+ << std::endl;
+  // clang-format on
 }
 
 void bankrupt() {
-      std::cout << "\n\n\n\nBankrupt 💸" << std::endl;
-      game_over();
+  std::cout << "\n\n\n\nBankrupt 💸" << std::endl;
+  game_over();
 }
 
 int choice(const std::string Phrase) {
@@ -232,4 +234,3 @@ void Jeu::run() {
     std::cin >> _start;
   }
 }
-
