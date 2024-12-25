@@ -7,7 +7,7 @@
 
 const int INITIAL_NB_EMPLOYEES = 1;
 const float INITIAL_MONEY = 100;
-const bool DEV_MODE = true;
+const bool DEV_MODE = false;
 
 using namespace std;
 int main() {
@@ -16,4 +16,3 @@ int main() {
   jeu.run();
   return 0;
 }
-
