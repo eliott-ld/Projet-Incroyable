@@ -37,7 +37,7 @@ void printBoxedText(const std::string &text, const std::string &color) {
   std::size_t padding_x = 6;
   std::size_t padding_y = 3;
   std::size_t margin_x = 2;
-  std::size_t margin_y = 2;
+  std::size_t margin_y = 1;
 
   std::cout << color;
 
@@ -86,12 +86,21 @@ void printBoxedText(const std::string &text, const std::string &color) {
       std::cout << " ";
     }
     size_t displayWidth = getDisplayWidth(l);
-    std::cout << "│ "
-              << std::string((maxLength - displayWidth + padding_x) / 2, ' ')
-              << l;
+    auto a = maxLength - displayWidth + padding_x;
+    for (auto c : l) {
+      if (c == '\e')
+        a += 6;
+    }
+    std::cout << "│ " << std::string(a / 2, ' ') << l;
+    for (auto c : l) {
+      if (c == '\e')
+        a += 1;
+    }
+
+    if (a % 2 == 1)
+      a++;
     // Add padding spaces if the line is shorter than the maximum length
-    std::cout << std::string((maxLength - displayWidth + padding_x) / 2, ' ')
-              << " │" << std::endl;
+    std::cout << std::string(a / 2, ' ') << " │" << std::endl;
   }
   for (std::size_t i = 0; i < padding_y; i++) {
     for (std::size_t i = 0; i < margin_x; i++) {

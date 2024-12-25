@@ -1,9 +1,8 @@
 #include "company.hh"
 #include "jeu.hh"
-#include "metal.hh"
-#include "plastic.hh"
 #include "text_box.hh"
 #include <iostream>
+#include <sstream>
 #include <thread>
 
 int load(std::string message, int time_secs) {
@@ -30,21 +29,21 @@ void Bienvenue() {
       " 🫡 Vous devez manufacturer des produits à partir de matière "
       "première et la vente de ces produits est automatique 🤑\n"
 
-      "🛑 Attention vous ne devez pas trop vous endetter !   "
-      "Si vous allez à -200 pièces magiques, vous perdez 😿\n";
-  printBoxedText(text);
+      "🛑 Attention vous ne devez pas trop vous endetter! "
+      "Si vous allez à -200 pièces magiques, VOUS PERDEZ 💀\n";
+  printBoxedText(text, "\e[3m\e[1;32m");
 }
 void game_over() {
   // clang-format off
-  std::cout << 
+  printBoxedText( 
 " ░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓██████████████▓▒░░▒▓████████▓▒░       ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓███████▓▒░ \n"
 "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░\n"
 "░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░\n"
 "░▒▓█▓▒▒▓███▓▒░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓██████▓▒░        ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒▒▓█▓▒░░▒▓██████▓▒░ ░▒▓███████▓▒░ \n"
 "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▓█▓▒░ ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░\n"
 "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▓█▓▒░ ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░\n"
-" ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░       ░▒▓██████▓▒░   ░▒▓██▓▒░  ░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░\n"
- << std::endl;
+" ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░       ░▒▓██████▓▒░   ░▒▓██▓▒░  ░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░\n",
+ "\e[0;31m");
   // clang-format on
 }
 
@@ -55,7 +54,7 @@ void bankrupt() {
 
 int choice(const std::string Phrase) {
   int choix_utilisateur = -1;
-  std::cout << Phrase << std::endl;
+  std::cout << Phrase << "\n> ";
 
   while (true) {
     if (!(std::cin >> choix_utilisateur)) {
@@ -65,10 +64,12 @@ int choice(const std::string Phrase) {
       }
       std::cin.clear();
     } else if (choix_utilisateur == 0 || choix_utilisateur == 1) {
+      std::cout << std::endl;
       return choix_utilisateur;
     } else {
+      std::cout << std::endl;
       std::cout << "Veuillez choisir une option valide (0 ou 1).\n"
-                << Phrase << std::endl;
+                << Phrase << "\n> ";
     }
   }
 }
@@ -79,24 +80,30 @@ void Jeu::Tour() {
                  "niveau maximum !\n ";
     exit(0);
   }
-  std::cout << "Tour " << _tour << "\n";
-  std::cout << "Vous etes actuellement au niveau : " << level << "\n";
-  std::cout << "Vous avez actuellement " << _company.getBalance()
-            << " pièces magiques\n";
-  std::cout << "Vous avez actuellement " << _company.getNbEmployees()
-            << " elfs employés\n";
-  std::cout << "Vous avez actuellement " << _company.metal.getNbRawMaterials()
-            << " kg de métal\n";
-  std::cout << "Vous avez actuellement " << _company.plastic.getNbRawMaterials()
-            << " kg de plastique\n";
-  std::cout << "---------------------------------------------------------------"
-               "----\n";
+
+  const auto y = "\e[0;33m";
+  const auto r = "\e[0;0m";
+  const auto bb = "\e[1;34m";
+  const auto p = "\e[1;35m";
+  std::stringstream text;
+  text << bb << "Tour " << _tour << r << "\n";
+  text << "Vous etes actuellement au niveau: " << p << level << r << "\n";
+  text << "Vous avez actuellement " << y << _company.getBalance()
+       << " pièces magiques " << r << "\n";
+  text << "Vous avez actuellement " << _company.getNbEmployees()
+       << " elf(s) employé(s)\n";
+  text << "Vous avez actuellement " << _company.metal.getNbRawMaterials()
+       << " kg de métal\n";
+  text << "Vous avez actuellement " << _company.plastic.getNbRawMaterials()
+       << " kg de plastique\n";
+  printBoxedText(text.str());
 }
 
 int input(std::string phrase) {
   int res = -1;
-  std::cout << phrase;
+  std::cout << phrase << "\n> ";
   std::cin >> res;
+  std::cout << std::endl;
   return res;
 }
 
@@ -104,19 +111,20 @@ Jeu::Jeu(int initial_nb_employees, float initial_money, bool dev_mode)
     : _company(initial_nb_employees, initial_money), _start(true), _tour(0),
       _dev_mode(dev_mode) {}
 void Jeu::ask_material(std::string material) {
-  std::cout << "Combien de kg de " << material << " voulez-vous acheter ?\n";
+  std::cout << "Combien de kg de " << material << " voulez-vous acheter ?";
   int _quantity = input("");
   int price = _company.priceRawMaterials(material, _quantity);
   if (price > _company.getBalance()) {
     std::cout << "Vous n'avez pas assez d'argent pour acheter autant "
-                 "de metal ("
-              << price << " > " << _company.getBalance() << ")" << std::endl;
+                 "de "
+              << material << " (" << price << " > " << _company.getBalance()
+              << ")" << std::endl;
   } else {
     std::cout << "Confirmez vous vouloir l'acheter pour " << price
               << " pièces magiques ?";
     int choix = choice("  1(OUI) ou 0(NON) ?");
     if (choix == 1) {
-      _company.buyRawMaterials("metal", _quantity);
+      _company.buyRawMaterials(material, _quantity);
     }
   }
 }
@@ -153,9 +161,8 @@ void Jeu::run() {
     }
     // PRODUCTION
     std::cout << "3. Manufacturer des produits\n";
-    std::cout
-        << "Souhaitez-vous changer la production?\n  1(OUI) ou 0(NON) ?\n";
-    std::cin >> choix;
+    choix =
+        choice("Souhaitez-vous changer la production?\n  1(OUI) ou 0(NON) ?");
     while (choix == 1) {
       std::cout << "Quel employé voulez vous ré-affecter ? (";
       for (int i = 0; i < _company.getNbEmployees(); i++) {
@@ -216,7 +223,8 @@ void Jeu::run() {
     std::cout << "4. Bilan du jour\n";
     std::cout << "\tItems produits\n";
     for (auto product : _company.getStorage()) {
-      std::cout << "\t" << product.getQuantity() << "" << product.to_string()
+      std::cout << "\t" << product.getQuantity() << " " << product.to_string()
+                << "(s)"
                 << " Prix total: " << product.price() << std::endl;
     }
     auto revenue = _company.sellStorage();
