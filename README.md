@@ -6,7 +6,7 @@
 
 ![](./demos/win.gif)
 
-### Lose example
+### Speedrun example 😉
 
 ![](./demos/lose.gif)
 

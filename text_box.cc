@@ -11,6 +11,8 @@ size_t getDisplayWidth(const std::string &line) {
     unsigned char ch = line[i];
     size_t charLen;
 
+    // \033[38;2;0;255;0m
+
     // Determine the number of bytes in the current character
     if ((ch & 0x80) == 0) {
       charLen = 1; // 1-byte ASCII
@@ -27,17 +29,23 @@ size_t getDisplayWidth(const std::string &line) {
     } else {
       throw std::runtime_error("Invalid UTF-8 encoding detected");
     }
+    if (ch == '\033' && line[i + 1] == '[' && line[i + 2] == '3' &&
+        line[i + 3] == '8') {
+      width -= 8;
+    }
+    if (ch == '\033' && line[i + 1] == '[' && line[i + 2] == '3' &&
+        line[i + 3] == '2') {
+      width += 1;
+    }
 
     i += charLen; // Move to the next character
   }
   return width;
 }
 
-void printBoxedText(const std::string &text, const std::string &color) {
-  std::size_t padding_x = 6;
-  std::size_t padding_y = 3;
-  std::size_t margin_x = 2;
-  std::size_t margin_y = 1;
+void printBoxedText(const std::string &text, const std::string &color,
+                    std::size_t padding_x, std::size_t padding_y,
+                    std::size_t margin_x, std::size_t margin_y) {
 
   std::cout << color;
 

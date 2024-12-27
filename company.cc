@@ -8,7 +8,7 @@ Company::Company(int nb_employees, float money)
 
 void Company::hireWorker() {
   _workers.push_back(Worker());
-  _money -= 100;
+  _money -= 50;
 }
 
 int Company::priceRawMaterials(std::string material, int nb) {
@@ -43,9 +43,17 @@ void Company::produce() {
       auto job = worker.currentJob().value();
       for (auto input : job.input) {
         if (input.getMaterialType() == "metal") {
-          metal.remove(input.getNbRawMaterials());
+          if (metal.getNbRawMaterials() >= input.getNbRawMaterials()) {
+            metal.remove(input.getNbRawMaterials());
+          } else {
+            throw "Not enough metal";
+          }
         } else if (input.getMaterialType() == "plastic") {
-          plastic.remove(input.getNbRawMaterials());
+          if (plastic.getNbRawMaterials() >= input.getNbRawMaterials()) {
+            plastic.remove(input.getNbRawMaterials());
+          } else {
+            throw "Not enough plastic";
+          }
         } else {
           throw "Impossible";
         }
@@ -94,8 +102,7 @@ int Company::getLevel() {
 }
 
 float Company::payWorkers() {
-  const int salary = 50;
-  float sum = _workers.size() * salary;
+  float sum = _workers.size() * Worker::salary;
   _money -= sum;
   return sum;
 }

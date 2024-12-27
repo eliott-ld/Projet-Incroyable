@@ -1,3 +1,4 @@
+#include "text_box.hh"
 #include <algorithm> // For std::shuffle
 #include <chrono>
 #include <cstdlib>
@@ -57,7 +58,7 @@ void showProgressBar(int count, int total) {
 
 // Fonction pour lire les touches une par une
 bool readKeyPresses() {
-  const int maxCount = 50; // Nombre maximum de touches à lire
+  const int maxCount = 100; // Nombre maximum de touches à lire
   int count = 0;
 
   setTerminalMode(); // Configurer le terminal pour ne pas attendre "Entrée"
@@ -76,8 +77,9 @@ bool readKeyPresses() {
     // Afficher la barre de progression à chaque touche pressée
     count++;
     showProgressBar(count, maxCount);
-    this_thread::sleep_for(
-        chrono::milliseconds(100)); // Simuler un petit délai entre les frappes
+    // this_thread::sleep_for(
+    //     chrono::milliseconds(100)); // Simuler un petit délai entre les
+    //     frappes
   }
 
   cout << endl;
@@ -163,6 +165,9 @@ public:
 
   void display() {
     cout << "\033[2J\033[H"; // Clear screen and move cursor to top
+    printBoxedText(
+        "Avant de passer au bilan, c'est l'heure de payer vos impôts! 🏦💸",
+        "\033[38;2;0;255;0m");
     cout << "\n\033[1;36m====== LES IMPÔTS ======\033[0m\n\n";
 
     const int w = to_string(MAX_N - 1).size(); // Max number of digits
@@ -172,13 +177,20 @@ public:
       }
       cout << std::string(2, ROOFCEIL);
       cout << "\n";
+      if (row == rows / 2) {
+        cout << "\033[48;2;0;128;0m";
+      }
       cout << "| ";
       for (size_t reelIndex = 0; reelIndex < reels.size(); ++reelIndex) {
         SlotItem slot = reels[reelIndex].getSlot(row);
         slot.print();
+        if (row == rows / 2) {
+          cout << "\033[48;2;0;128;0m";
+        }
         cout << " | ";
       }
       cout << "\n";
+      cout << "\033[0m";
     }
     for (size_t reelIndex = 0; reelIndex < reels.size() + 1; ++reelIndex) {
       cout << std::string(w + 2, ROOFCEIL);
@@ -207,8 +219,8 @@ public:
       if (reelIndex != reels.size() - 1)
         cout << " + ";
     }
-    score /= 5;
-    cout << ") / 5 = " << score << "% 💸\n";
+    score /= 10;
+    cout << ") / 10 = " << score << "% 💸\n";
     return score;
   }
 };
@@ -260,7 +272,7 @@ int mini_jeu_impots() {
   bool wants_to_play = readKeyPresses();
   int score;
   if (wants_to_play) {
-    machine.spinAnimation(10, 70);
+    machine.spinAnimation(30, 100);
     machine.display();
     score = machine.score();
   } else {
@@ -270,3 +282,5 @@ int mini_jeu_impots() {
 
   return score;
 }
+
+// int main() { mini_jeu_impots(); }

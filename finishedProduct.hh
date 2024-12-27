@@ -42,7 +42,6 @@ public:
   }
 
 protected:
-  // TODO
   // map : product / price
   const static std::map<FinishedProductType, float> _price_table;
   int quantity;

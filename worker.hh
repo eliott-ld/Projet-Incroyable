@@ -15,9 +15,9 @@ public:
   std::optional<Job> currentJob() const { return _job; }
   void assignJob(Jobs newJob);
   void stopJob();
+  const static int salary = 10;
 
 protected:
-  const static int _salary = 10;
   /// None if workless
   std::optional<Job> _job;
 };

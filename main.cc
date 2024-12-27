@@ -1,12 +1,9 @@
 #include "jeu.hh"
 
-#include <ctime>
-#include <iostream>
-#include <thread>
 #include <unistd.h>
 
 const int INITIAL_NB_EMPLOYEES = 1;
-const float INITIAL_MONEY = 100;
+const float INITIAL_MONEY = 250;
 const bool DEV_MODE = false;
 
 using namespace std;

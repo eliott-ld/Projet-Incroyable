@@ -20,4 +20,5 @@ private:
   bool _start;
   int _tour;
   bool _dev_mode;
+  int level;
 };
