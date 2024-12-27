@@ -1,0 +1,272 @@
+#include <algorithm> // For std::shuffle
+#include <chrono>
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
+#include <map>
+#include <random>
+#include <sstream>
+#include <stdio.h>
+#include <string>
+#include <termios.h>
+#include <thread>
+#include <unistd.h>
+#include <vector>
+
+using namespace std;
+
+const int N_REELS = 5;
+const int MAX_N = 101;
+const char ROOFCEIL = '-';
+const char WALLS = '|';
+
+// Fonction pour configurer le terminal en mode non-bloquant
+void setTerminalMode() {
+  struct termios new_settings;
+  tcgetattr(STDIN_FILENO,
+            &new_settings); // Récupérer les paramètres actuels du terminal
+  new_settings.c_lflag &= ~ICANON; // Désactiver le mode canonique
+  new_settings.c_lflag &= ~ECHO;   // Désactiver l'affichage des caractères
+  tcsetattr(STDIN_FILENO, TCSANOW,
+            &new_settings); // Appliquer les nouveaux paramètres
+}
+
+// Fonction pour réinitialiser le terminal
+void resetTerminalMode() {
+  struct termios original_settings;
+  tcgetattr(STDIN_FILENO, &original_settings);
+  original_settings.c_lflag |= ICANON; // Réactiver le mode canonique
+  original_settings.c_lflag |= ECHO;   // Réactiver l'affichage des caractères
+  tcsetattr(STDIN_FILENO, TCSANOW,
+            &original_settings); // Appliquer les paramètres d'origine
+}
+
+// Fonction pour afficher la barre de progression
+void showProgressBar(int count, int total) {
+  int progress = (count * 50) / total; // Calculer la progression
+  cout << "\r[";
+  for (int i = 0; i < 50; ++i) {
+    if (i < progress)
+      cout << "=";
+    else
+      cout << " ";
+  }
+  cout << "] " << progress * 2 << "% (" << count << "/" << total << ")";
+  cout.flush();
+}
+
+// Fonction pour lire les touches une par une
+bool readKeyPresses() {
+  const int maxCount = 50; // Nombre maximum de touches à lire
+  int count = 0;
+
+  setTerminalMode(); // Configurer le terminal pour ne pas attendre "Entrée"
+
+  cout << "Spammez la touche espace pour pratiquer l'évasion fiscale (Q pour "
+          "quitter) :\n";
+
+  while (count < maxCount) {
+    char ch = getchar();          // Lire la touche pressée
+    if (ch == 'q' || ch == 'Q') { // Quitter si la touche 'q' ou 'Q' est pressée
+      cout << '\n';
+      resetTerminalMode(); // Réinitialiser le terminal à son mode normal
+      return false;
+    }
+
+    // Afficher la barre de progression à chaque touche pressée
+    count++;
+    showProgressBar(count, maxCount);
+    this_thread::sleep_for(
+        chrono::milliseconds(100)); // Simuler un petit délai entre les frappes
+  }
+
+  cout << endl;
+  resetTerminalMode(); // Réinitialiser le terminal à son mode normal
+  return true;
+}
+class SlotItem {
+public:
+  int number;
+  vector<int> worth;
+  string color;
+  bool isWild;
+  //
+  // Default constructor
+  SlotItem() : number(0), color("\033[0m"), isWild(false) {}
+
+  SlotItem(int number, string color = "", bool isWild = false)
+      : number(number), color(color), isWild(isWild) {}
+
+  void print() {
+    const auto max_n_digit = to_string(MAX_N - 1).size();
+    auto n_digit = to_string(number).size();
+    cout << std::string(
+        (max_n_digit - n_digit) / 2 + (max_n_digit - n_digit) % 2, ' ');
+    cout << std::string((max_n_digit - n_digit) / 2, ' ');
+    cout << color << number << "\033[0m"; // Reset color after print
+  }
+};
+
+class Reel {
+public:
+  vector<SlotItem> slots;
+  int relativePos;
+
+  Reel() : relativePos(0) {}
+
+  void addSlotItem(const SlotItem &item) { slots.push_back(item); }
+
+  void spin(int spinAmount) {
+    int n = slots.size();
+    if (n == 0)
+      return;
+
+    relativePos = (relativePos + spinAmount + n) % n;
+  }
+
+  SlotItem getSlot(int row) {
+    int index = (relativePos + row) % slots.size();
+    return slots[index];
+  }
+};
+
+class SlotMachine {
+public:
+  vector<Reel> reels;
+  map<int, SlotItem> items;
+  int rows;
+
+  SlotMachine(int rows) : rows(rows) {}
+
+  void addItem(const SlotItem &item) { items[item.number] = item; }
+
+  void setupReel(size_t reelIndex, vector<int> itemNumbers) {
+    if (reelIndex >= reels.size()) {
+      reels.resize(reelIndex + 1);
+    }
+
+    Reel &reel = reels[reelIndex];
+    reel.slots.clear();
+
+    for (const int &number : itemNumbers) {
+      if (items.find(number) != items.end()) {
+        reel.addSlotItem(items[number]);
+      }
+    }
+  }
+
+  void spinReel(size_t reelIndex, int spinAmount) {
+    if (reelIndex < reels.size()) {
+      reels[reelIndex].spin(spinAmount);
+    }
+  }
+
+  void display() {
+    cout << "\033[2J\033[H"; // Clear screen and move cursor to top
+    cout << "\n\033[1;36m====== LES IMPÔTS ======\033[0m\n\n";
+
+    const int w = to_string(MAX_N - 1).size(); // Max number of digits
+    for (int row = 0; row < rows; ++row) {
+      for (size_t reelIndex = 0; reelIndex < reels.size() + 1; ++reelIndex) {
+        cout << std::string(w + 2, ROOFCEIL);
+      }
+      cout << std::string(2, ROOFCEIL);
+      cout << "\n";
+      cout << "| ";
+      for (size_t reelIndex = 0; reelIndex < reels.size(); ++reelIndex) {
+        SlotItem slot = reels[reelIndex].getSlot(row);
+        slot.print();
+        cout << " | ";
+      }
+      cout << "\n";
+    }
+    for (size_t reelIndex = 0; reelIndex < reels.size() + 1; ++reelIndex) {
+      cout << std::string(w + 2, ROOFCEIL);
+    }
+    cout << std::string(2, ROOFCEIL) << '\n';
+  }
+
+  void spinAnimation(int spins = 10, int delayMs = 100) {
+    for (int i = 0; i < spins; ++i) {
+      for (size_t reelIndex = 0; reelIndex < reels.size(); ++reelIndex) {
+        spinReel(reelIndex, 1);
+      }
+      display();
+      this_thread::sleep_for(chrono::milliseconds(delayMs));
+    }
+  }
+
+  int score() {
+    int score = 0;
+    int row = rows / 2;
+    cout << "Votre taux d'imposition est : (";
+    for (size_t reelIndex = 0; reelIndex < reels.size(); ++reelIndex) {
+      SlotItem slot = reels[reelIndex].getSlot(row);
+      score += slot.number;
+      cout << slot.number;
+      if (reelIndex != reels.size() - 1)
+        cout << " + ";
+    }
+    score /= 5;
+    cout << ") / 5 = " << score << "% 💸\n";
+    return score;
+  }
+};
+// Function to create gradient colors
+vector<string> createGradient(int numColors) {
+  vector<string> gradient;
+  if (numColors <= 0)
+    return gradient;
+
+  // Define the start and end colors for the gradient (RGB)
+  int startR = 255, startG = 255, startB = 255; // White
+  int endR = 255, endG = 0, endB = 0;           // Bright Red
+
+  for (int i = 0; i < numColors; ++i) {
+    // Interpolate the RGB values
+    int r = startR + (endR - startR) * i / (numColors - 1);
+    int g = startG + (endG - startG) * i / (numColors - 1);
+    int b = startB + (endB - startB) * i / (numColors - 1);
+
+    // Create the color escape code
+    ostringstream colorCode;
+    colorCode << "\033[38;2;" << r << ";" << g << ";" << b << "m";
+
+    gradient.push_back(colorCode.str());
+  }
+
+  return gradient;
+}
+
+int mini_jeu_impots() {
+  srand(time(0));
+
+  SlotMachine machine(3);
+  vector<int> numbers;
+  auto gradient = createGradient(MAX_N);
+  for (int i = 0; i < MAX_N; ++i) {
+    machine.addItem(SlotItem(i, gradient[i]));
+    numbers.push_back(i);
+  }
+
+  random_device rd;
+  mt19937 gen(rd());
+  for (int reel = 0; reel < N_REELS; ++reel) {
+    shuffle(numbers.begin(), numbers.end(), gen); // Randomly shuffle the list
+    machine.setupReel(reel, numbers);
+  }
+
+  machine.display();
+  bool wants_to_play = readKeyPresses();
+  int score;
+  if (wants_to_play) {
+    machine.spinAnimation(10, 70);
+    machine.display();
+    score = machine.score();
+  } else {
+    score = 100;
+    cout << "Dommage, vous payerez 100% d'impots 🤷" << endl;
+  }
+
+  return score;
+}

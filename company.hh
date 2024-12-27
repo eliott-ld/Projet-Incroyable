@@ -28,6 +28,7 @@ public:
   float sellStorage();
   void addMoney(float newMoney);
   float payWorkers();
+  void payImpots(float dollars);
 
   Metal metal;
   Plastic plastic;

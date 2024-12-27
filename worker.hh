@@ -17,7 +17,7 @@ public:
   void stopJob();
 
 protected:
-  const static int _salary = 50;
+  const static int _salary = 10;
   /// None if workless
   std::optional<Job> _job;
 };

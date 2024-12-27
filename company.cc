@@ -99,3 +99,5 @@ float Company::payWorkers() {
   _money -= sum;
   return sum;
 }
+
+void Company::payImpots(float dollars) { _money -= dollars; }

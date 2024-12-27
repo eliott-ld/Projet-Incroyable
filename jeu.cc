@@ -1,5 +1,6 @@
 #include "company.hh"
 #include "jeu.hh"
+#include "mini_jeu_impots.hh"
 #include "text_box.hh"
 #include <cstdlib>
 #include <ctime>
@@ -211,6 +212,8 @@ void Jeu::run() {
     // ENGAGER UN EMPLOYE
     // TODO
     std::cout << "2. Engager un employé\n";
+    std::cout << "🛑 ATTENTION 🛑: le salaire quotidien de chaque employer est "
+                 "de 10 pièces\n";
     choix = choice("Souhaitez-vous engager un employé pour 100 pièces "
                    "magiques ?\n 1(OUI) ou 0(NON)");
     if (choix == 1) {
@@ -274,6 +277,12 @@ void Jeu::run() {
     if (!_dev_mode)
       load("L'usine tourne à plein régime", 10);
 
+    printBoxedText(
+        "Avant de passer au bilan, c'est l'heure de payer vos impôts! 🏦💸",
+        "\033[38;2;0;255;0m");
+
+    int taux_impot = mini_jeu_impots();
+
     // FIN DU TOUR
     std::cout << "4. Bilan du jour\n";
     std::cout << "\tItems produits\n";
@@ -285,8 +294,13 @@ void Jeu::run() {
     auto revenue = _company.sellStorage();
     std::cout << "Vos gains d'aujourd'hui: " << revenue << std::endl;
 
+    auto impots_dollars = revenue * taux_impot / 100;
+    std::cout << "Impôts = " << revenue << " * " << taux_impot
+              << "% = " << impots_dollars << "$\n";
     auto salaries = _company.payWorkers();
     std::cout << "Coût des salaire d'aujourd'hui: " << salaries << std::endl;
+
+    _company.payImpots(impots_dollars);
 
     if (_company.getBalance() < -200) {
       bankrupt();
