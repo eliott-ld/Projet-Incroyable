@@ -3,12 +3,10 @@
 ## Demo C++
 
 ### Win example
-
-https://github.com/user-attachments/assets/0a193735-babf-4f5c-aa41-caa39a498344🌍️
+https://github.com/user-attachments/assets/038120c4-214c-4d1d-b32c-2cb0ad39cc16
 
 ### 🌍️ 🏆️ World record Speedrun 😉
-
-https://github.com/user-attachments/assets/6292e2eb-f580-44c3-9587-0dab3a329294
+https://github.com/user-attachments/assets/d5c936a6-0a83-440e-8c69-608fdee75dc0
 
 ## Demo Web 🔊
 
