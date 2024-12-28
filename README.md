@@ -4,11 +4,11 @@
 
 ### Win example
 
-![](./demos/win.gif)
+https://github.com/user-attachments/assets/0a193735-babf-4f5c-aa41-caa39a498344🌍️
 
-### Speedrun example 😉
+### 🌍️ 🏆️ World record Speedrun 😉
 
-![](./demos/lose.gif)
+https://github.com/user-attachments/assets/6292e2eb-f580-44c3-9587-0dab3a329294
 
 ## Demo Web 🔊
 
