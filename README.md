@@ -11,3 +11,8 @@ https://github.com/user-attachments/assets/6ef13a06-0042-4757-ab3b-0bae45a86308
 ## Demo Web 🔊
 
 https://github.com/user-attachments/assets/1c94429f-afc8-4beb-ad29-04091b612f25
+
+# TODO
+- []: afficher le prix des matériaux 
+- []: bar de progression de niveau
+- []: fix le message engager un employé (pour débloquer) 
