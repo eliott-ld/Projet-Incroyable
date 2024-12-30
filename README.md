@@ -4,11 +4,11 @@
 
 ### Win example
 
-https://github.com/user-attachments/assets/038120c4-214c-4d1d-b32c-2cb0ad39cc16
+https://github.com/user-attachments/assets/2e6afdfa-8c7e-4bad-8f2e-21844477aa21
 
 ### 🌍️ 🏆️ World record Speedrun 😉
 
-https://github.com/user-attachments/assets/6ef13a06-0042-4757-ab3b-0bae45a86308
+https://github.com/user-attachments/assets/4f412119-7637-4e3b-a8bd-fef2688ac725
 
 ## Demo Web 🔊
 
