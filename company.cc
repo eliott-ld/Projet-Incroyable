@@ -88,9 +88,9 @@ int Company::getLevel() {
     return 1;
   case 200 ... 349:
     return 2;
-  case 350 ... 499:
+  case 350 ... 799:
     return 3;
-  case 500 ... 799:
+  case 800 ... 999:
     return 4;
   default:
     return 5;
@@ -102,10 +102,10 @@ int Company::getNextLevelGoal() {
     return 200;
   case 200 ... 349:
     return 350;
-  case 350 ... 499:
-    return 500;
-  case 500 ... 799:
+  case 350 ... 799:
     return 800;
+  case 800 ... 999:
+    return 1000;
   default:
     return 0; // never reached
   }
