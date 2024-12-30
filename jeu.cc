@@ -88,8 +88,8 @@ void Bienvenue() {
       "👋 Bienvenue dans le jeu Fantastic Factory\n"
       "📜 Règles du jeu : Vous etes propiétaire d'une usine de production "
       "Vous fournissez des supermarchés ayant une demande infinie !\n"
-      " 🫡 Vous devez manufacturer des produits à partir de matière "
-      "première et la vente de ces produits est automatique 🤑\n"
+      " 🫡 Vous devez manufacturer des produits à partir de matières "
+      "premières et la vente de ces produits est automatique 🤑\n"
       "⭐️A partir du niveau 3, vous accédez au méthodes de production assemble "
       "qui permettent de fabriquer des objets de haute valeur 🤓"
       "\n"
@@ -177,6 +177,10 @@ void Jeu::Tour() {
        << " kg de métal\n";
   text << "Vous avez actuellement " << _company.plastic.getNbRawMaterials()
        << " kg de plastique\n";
+  text << "Progrès du niveau: ";
+  showProgressBar(_company.getAccumulatedMoney(), _company.getNextLevelGoal(),
+                  text);
+  text << "\n";
   printBoxedText(text.str(), "", 6, 3, 38, 1);
 }
 
@@ -203,7 +207,8 @@ void Jeu::ask_material(std::string material) {
               << ")" << std::endl;
   } else {
     std::cout << "Confirmez vous vouloir l'acheter pour " << g << price << "$"
-              << r << " ?";
+              << r << " ? (Vous avez bénéficié d'une réduction de "
+              << int(RawMaterial::getReduction(_quantity) * 100) << "%)\n";
     int choix = choice("  1 (OUI) ou 0 (NON) ?");
     if (choix == 1) {
       _company.buyRawMaterials(material, _quantity);
@@ -223,8 +228,9 @@ void Jeu::run() {
         "Souhaitez-vous acheter des matières premières ?\n 1 (OUI) ou 0 (NON)");
     if (choix == 1) {
       while (choix == 1) {
-        choix = choice("Quelle de matière première voulez-vous acheter ?\n0. "
-                       "Metal\n1. Plastique");
+        choix = choice("Quelle de matière première voulez-vous acheter ?\n"
+                       "0. Metal     (\033[38;2;0;255;0m1.5$\033[0m l'unité)\n"
+                       "1. Plastique (\033[38;2;0;255;0m3.2$\033[0m l'unité)");
         // Si l'utilisateur saisit autre chose que 0 ou 1
         if (choix == 0) {
           ask_material("metal");
@@ -240,7 +246,8 @@ void Jeu::run() {
     std::cout << "2. Engager un employé\n";
     std::cout << "🛑 ATTENTION 🛑: le salaire quotidien de chaque employer est "
                  "de "
-              << g << "10$" << r << "\n";
+              << g << "10$" << r << " + " << g << "50$" << r
+              << " pour le débloquer\n";
     choix = choice("Souhaitez-vous engager un employé pour "
                    "\033[38;2;0;255;0m50$\033[0m ?\n 1 (OUI) ou 0 (NON)");
     if (choix == 1) {
@@ -327,18 +334,21 @@ void Jeu::run() {
           << " Prix total: " << g << product.price() << "$" << r << std::endl;
     }
     auto revenue = _company.sellStorage();
-    buf << "Vos gains d'aujourd'hui: " << g << revenue << "$" << r << std::endl;
-
     auto impots_dollars = revenue * taux_impot / 100;
+    _company.payImpots(impots_dollars);
+    auto salaries = _company.payWorkers();
+    auto benefits = revenue - impots_dollars - salaries;
+
+    buf << "Vos gains (bruts) d'aujourd'hui: " << g << revenue << "$" << r
+        << std::endl;
     buf << "Impôts = " << revenue << " * " << taux_impot << "% = " << g
         << impots_dollars << "$" << r << "\n";
-    auto salaries = _company.payWorkers();
     buf << "Coût des salaire d'aujourd'hui: " << g << salaries << "$" << r
+        << std::endl;
+    buf << "Vos gains (nets) d'aujourd'hui: " << g << benefits << "$" << r
         << std::endl;
 
     std::cout << buf.str();
-
-    _company.payImpots(impots_dollars);
 
     if (_company.getBalance() < -200) {
       bankrupt();

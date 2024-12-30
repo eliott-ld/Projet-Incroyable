@@ -1,3 +1,4 @@
+#include "mini_jeu_impots.hh"
 #include "text_box.hh"
 #include <algorithm> // For std::shuffle
 #include <chrono>
@@ -43,17 +44,20 @@ void resetTerminalMode() {
 }
 
 // Fonction pour afficher la barre de progression
-void showProgressBar(int count, int total) {
+void showProgressBar(int count, int total, std::ostream &out,
+                     bool carriage_return) {
   int progress = (count * 50) / total; // Calculer la progression
-  cout << "\r[";
+  if (carriage_return)
+    out << "\r";
+  out << "[";
   for (int i = 0; i < 50; ++i) {
     if (i < progress)
-      cout << "=";
+      out << "=";
     else
-      cout << " ";
+      out << " ";
   }
-  cout << "] " << progress * 2 << "% (" << count << "/" << total << ")";
-  cout.flush();
+  out << "] " << progress * 2 << "% (" << count << "/" << total << ")";
+  out.flush();
 }
 
 // Fonction pour lire les touches une par une
@@ -76,10 +80,7 @@ bool readKeyPresses() {
 
     // Afficher la barre de progression à chaque touche pressée
     count++;
-    showProgressBar(count, maxCount);
-    // this_thread::sleep_for(
-    //     chrono::milliseconds(100)); // Simuler un petit délai entre les
-    //     frappes
+    showProgressBar(count, maxCount, std::cout, true);
   }
 
   cout << endl;

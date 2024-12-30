@@ -84,20 +84,30 @@ void Company::addMoney(float newMoney) {
 
 int Company::getLevel() {
   switch ((int)_accumulatedMoney) {
-  case 0 ... 200:
+  case 0 ... 199:
     return 1;
-    break;
-  case 201 ... 350:
+  case 200 ... 349:
     return 2;
-    break;
-  case 351 ... 500:
+  case 350 ... 499:
     return 3;
-    break;
-  case 501 ... 800:
+  case 500 ... 799:
     return 4;
-    break;
   default:
     return 5;
+  }
+}
+int Company::getNextLevelGoal() {
+  switch ((int)_accumulatedMoney) {
+  case 0 ... 199:
+    return 200;
+  case 200 ... 349:
+    return 350;
+  case 350 ... 499:
+    return 500;
+  case 500 ... 799:
+    return 800;
+  default:
+    return 0; // never reached
   }
 }
 

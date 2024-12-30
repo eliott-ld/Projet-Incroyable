@@ -29,6 +29,8 @@ public:
   void addMoney(float newMoney);
   float payWorkers();
   void payImpots(float dollars);
+  float getAccumulatedMoney() { return _accumulatedMoney; }
+  int getNextLevelGoal();
 
   Metal metal;
   Plastic plastic;
