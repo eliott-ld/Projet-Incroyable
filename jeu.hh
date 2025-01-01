@@ -12,8 +12,13 @@ public:
   Jeu(int initial_nb_employees, float initial_money, bool dev_mode);
   void Tour();
   void run();
-  void increaseLevel();
   void ask_material(std::string material);
+  void handleRawMaterials();
+  void handleHiring();
+  void handleProduction();
+  void reassignWorker();
+  void endOfDay();
+
 
 private:
   Company _company;

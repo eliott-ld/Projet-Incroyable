@@ -28,6 +28,8 @@ int load(std::string message, int time_secs) {
   return 0;
 }
 
+
+// WARING: This function is too long (30 lines). Consider refactoring.
 void loading_screen(bool dev_mode, bool bienvenue,
                     std::string message = "Loading...") {
   std::string original = message + "\n"
@@ -90,7 +92,7 @@ void Bienvenue() {
       "Vous fournissez des supermarchés ayant une demande infinie !\n"
       " 🫡 Vous devez manufacturer des produits à partir de matières "
       "premières et la vente de ces produits est automatique 🤑\n"
-      "⭐️A partir du niveau 3, vous accédez au méthodes de production assemble "
+      "⭐️A partir du niveau 3, vous accédez au méthodes de production 'assemble' "
       "qui permettent de fabriquer des objets de haute valeur 🤓"
       "\n"
 
@@ -99,6 +101,7 @@ void Bienvenue() {
       "💀\n";
   printBoxedText(text, "\e[3m\e[1;32m");
 }
+
 void game_over() {
   // clang-format off
   printBoxedText( 
@@ -139,6 +142,7 @@ int choice(const std::string Phrase) {
     }
   }
 }
+// WARING: This function is too long (30 lines). Consider refactoring.
 void Jeu::Tour() {
   auto newLevel = _company.getLevel();
   if (newLevel == 5) {
@@ -206,7 +210,7 @@ void Jeu::ask_material(std::string material) {
               << material << " (" << price << " > " << _company.getBalance()
               << ")" << std::endl;
   } else {
-    std::cout << "Confirmez vous vouloir l'acheter pour " << g << price << "$"
+    std::cout << "Confirmez-vous vouloir l'acheter pour " << g << price << "$"
               << r << " ? (Vous avez bénéficié d'une réduction de "
               << int(RawMaterial::getReduction(_quantity) * 100) << "%)\n";
     int choix = choice("  1 (OUI) ou 0 (NON) ?");
@@ -216,6 +220,7 @@ void Jeu::ask_material(std::string material) {
   }
 }
 
+// WARING: This function is too long (30 lines). Consider refactoring.
 void Jeu::run() {
   loading_screen(_dev_mode, true);
   if (_tour == 0) {
@@ -223,138 +228,137 @@ void Jeu::run() {
   }
   while (_start) {
     Tour();
-    // MATIERE PREMIERE
-    int choix = choice(
-        "Souhaitez-vous acheter des matières premières ?\n 1 (OUI) ou 0 (NON)");
-    if (choix == 1) {
-      while (choix == 1) {
-        choix = choice("Quelle de matière première voulez-vous acheter ?\n"
-                       "0. Metal     (\033[38;2;0;255;0m1.5$\033[0m l'unité)\n"
-                       "1. Plastique (\033[38;2;0;255;0m3.2$\033[0m l'unité)");
-        // Si l'utilisateur saisit autre chose que 0 ou 1
-        if (choix == 0) {
-          ask_material("metal");
-        } else if (choix == 1) {
-          ask_material("plastic");
-        }
-        choix = choice("Souhaitez-vous continuer d'acheter des matières "
-                       "premières ?\n 1 (OUI) ou 0 (NON)");
-      }
-    }
-
-    // ENGAGER UN EMPLOYE
-    std::cout << "2. Engager un employé\n";
-    std::cout << "🛑 ATTENTION 🛑: le salaire quotidien de chaque employer est "
-                 "de "
-              << g << "10$" << r << " + " << g << "50$" << r
-              << " pour le débloquer\n";
-    choix = choice("Souhaitez-vous engager un employé pour "
-                   "\033[38;2;0;255;0m50$\033[0m ?\n 1 (OUI) ou 0 (NON)");
-    if (choix == 1) {
-      _company.hireWorker();
-    }
-    // PRODUCTION
-    std::cout << "3. Manufacturer des produits\n";
-    choix =
-        choice("Souhaitez-vous changer la production?\n  1 (OUI) ou 0 (NON) ?");
-    while (choix == 1) {
-      std::cout << "Quel employé voulez vous ré-affecter ? (";
-      for (int i = 0; i < _company.getNbEmployees(); i++) {
-        if (i != 0)
-          std::cout << ", ";
-        std::cout << i;
-      }
-      int employee_id = input(")");
-
-      if (employee_id >= _company.getNbEmployees()) {
-        std::cout << "L'employé doit être compris entre 0 et "
-                  << _company.getNbEmployees() - 1 << std::endl;
-        continue;
-      }
-
-      // clang-format off
-      const std::string header =
-              "| Titre                     | Prix unitaire | Entrée              | Sortie | Commande |";                const std::string jobs[] = {
-          "| Fabriquer une gomme       | \033[38;2;0;255;0m11 $\033[0m          | 2 Plastic           | x2     | 0        |",
-          "| Fabriquer un trombonne    | \033[38;2;0;255;0m25 $\033[0m          | 3 Metal             | x1     | 1        |",
-          "| Assembler des ciseaux     | \033[38;2;0;255;0m50 $\033[0m          | 4 Plastic, 9 Metal  | x1     | 2        |",
-          "| Assembler une aggrapheuse | \033[38;2;0;255;0m70 $\033[0m          | 2 Plastic, 13 Metal | x1     | 3        |",
-      };
-      // clang-format on
-      const Jobs jobs_list[] = {
-          Jobs::CRAFT_RUBBER,
-          Jobs::CRAFT_PAPERCLIP,
-          Jobs::ASSEMBLE_SCISSORS,
-          Jobs::ASSEMBLE_STAPLER,
-      };
-      std::size_t jobs_count = sizeof(jobs) / sizeof(jobs[0]);
-      if (_company.getLevel() < 3) {
-        jobs_count = 2;
-      }
-
-      std::cout << "Quel métier voulez vous lui donner ?" << std::endl;
-      std::cout << header << "\n" << std::string(header.length(), '-') << "\n";
-      for (std::size_t i = 0; i < jobs_count; i++) {
-        std::cout << jobs[i] << std::endl;
-      }
-      int job_id = input("");
-
-      if (job_id >= (int)jobs_count) {
-        std::cout << "Le métier doit être compris entre 0 et " << jobs_count - 1
-                  << std::endl;
-        continue;
-      }
-
-      _company.getWorker()[employee_id].assignJob(jobs_list[job_id]);
-      choix = choice("Souhaitez-vous continuer de changer la production?\n"
-                     "1 (OUI) ou 0 (NON) ?");
-    }
-
-    std::cout << "-------------------------------------------------------------"
-                 "------\n";
-    _tour++;
-
-    try {
-      _company.produce();
-    } catch (const char *e) {
-      printBoxedText(e);
-    }
-
-    loading_screen(_dev_mode, false, "L'usine tourne à plein régime");
-
-    int taux_impot = mini_jeu_impots();
-
-    // FIN DU TOUR
-    std::stringstream buf;
-    buf << "4. Bilan du jour\n";
-    buf << "\tItems produits\n";
-    for (auto product : _company.getStorage()) {
-      buf << "\t" << product.getQuantity() << " " << product.to_string()
-          << "(s)"
-          << " Prix total: " << g << product.price() << "$" << r << std::endl;
-    }
-    auto revenue = _company.sellStorage();
-    auto impots_dollars = revenue * taux_impot / 100;
-    _company.payImpots(impots_dollars);
-    auto salaries = _company.payWorkers();
-    auto benefits = revenue - impots_dollars - salaries;
-
-    buf << "Vos gains (bruts) d'aujourd'hui: " << g << revenue << "$" << r
-        << std::endl;
-    buf << "Impôts = " << revenue << " * " << taux_impot << "% = " << g
-        << impots_dollars << "$" << r << "\n";
-    buf << "Coût des salaire d'aujourd'hui: " << g << salaries << "$" << r
-        << std::endl;
-    buf << "Vos gains (nets) d'aujourd'hui: " << g << benefits << "$" << r
-        << std::endl;
-
-    std::cout << buf.str();
-
+    handleRawMaterials();
+    handleHiring();
+    handleProduction();
+    endOfDay();
     if (_company.getBalance() < -200) {
       bankrupt();
       break;
     }
-
     _start = choice("Voulez-vous continuer ? (1/0)");
   }
+}
+
+void Jeu::handleRawMaterials() {
+  int choix = choice(
+      "Souhaitez-vous acheter des matières premières ?\n 1 (OUI) ou 0 (NON)");
+  if (choix == 1) {
+    while (choix == 1) {
+      choix = choice("Quelles matières premières voulez-vous acheter ?\n"
+                     "0. Metal     (\033[38;2;0;255;0m1.5$\033[0m l'unité)\n"
+                     "1. Plastique (\033[38;2;0;255;0m3.2$\033[0m l'unité)");
+      if (choix == 0) {
+        ask_material("metal");
+      } else if (choix == 1) {
+        ask_material("plastic");
+      }
+      choix = choice("Souhaitez-vous continuer d'acheter des matières "
+                     "premières ?\n 1 (OUI) ou 0 (NON)");
+    }
+  }
+}
+
+void Jeu::handleHiring() {
+  std::cout << "2. Engager un employé\n";
+  std::cout << "🛑 ATTENTION 🛑: le salaire quotidien de chaque employer est "
+               "de "
+            << g << "10$" << r << " + " << g << "50$" << r
+            << " pour le débloquer\n";
+  int choix = choice("Souhaitez-vous engager un employé pour "
+                     "\033[38;2;0;255;0m50$\033[0m ?\n 1 (OUI) ou 0 (NON)");
+  if (choix == 1) {
+    _company.hireWorker();
+  }
+}
+
+void Jeu::handleProduction() {
+  std::cout << "3. Manufacturer des produits\n";
+  int choix =
+      choice("Souhaitez-vous changer la production?\n  1 (OUI) ou 0 (NON) ?");
+  while (choix == 1) {
+    reassignWorker();
+    choix = choice("Souhaitez-vous continuer de changer la production?\n"
+                   "1 (OUI) ou 0 (NON) ?");
+  }
+}
+
+void Jeu::reassignWorker() {
+  std::cout << "Quel employé voulez vous ré-affecter ? (";
+  for (int i = 0; i < _company.getNbEmployees(); i++) {
+    if (i != 0)
+      std::cout << ", ";
+    std::cout << "employé numéro " << i;
+  }
+  int employee_id = input(")");
+  if (employee_id >= _company.getNbEmployees()) {
+    std::cout << "L'employé doit être compris entre 0 et "
+              << _company.getNbEmployees() - 1 << std::endl;
+    return;
+  }
+  const std::string header =
+      "| Titre                     | Prix unitaire | Entrée              | Sortie | Commande |";
+  const std::string jobs[] = {
+      "| Fabriquer une gomme       | \033[38;2;0;255;0m11 $\033[0m          | 2 Plastic           | x2     | 0        |",
+      "| Fabriquer un trombonne    | \033[38;2;0;255;0m25 $\033[0m          | 3 Metal             | x1     | 1        |",
+      "| Assembler des ciseaux     | \033[38;2;0;255;0m50 $\033[0m          | 4 Plastic, 9 Metal  | x1     | 2        |",
+      "| Assembler une aggrapheuse | \033[38;2;0;255;0m70 $\033[0m          | 2 Plastic, 13 Metal | x1     | 3        |",
+  };
+  const Jobs jobs_list[] = {
+      Jobs::CRAFT_RUBBER,
+      Jobs::CRAFT_PAPERCLIP,
+      Jobs::ASSEMBLE_SCISSORS,
+      Jobs::ASSEMBLE_STAPLER,
+  };
+  std::size_t jobs_count = sizeof(jobs) / sizeof(jobs[0]);
+  if (_company.getLevel() < 3) {
+    jobs_count = 2;
+  }
+  std::cout << "Quel métier voulez vous lui donner ?" << std::endl;
+  std::cout << header << "\n" << std::string(header.length(), '-') << "\n";
+  for (std::size_t i = 0; i < jobs_count; i++) {
+    std::cout << jobs[i] << std::endl;
+  }
+  int job_id = input("");
+  if (job_id >= (int)jobs_count) {
+    std::cout << "Le métier doit être compris entre 0 et " << jobs_count - 1
+              << std::endl;
+    return;
+  }
+  _company.getWorker()[employee_id].assignJob(jobs_list[job_id]);
+}
+
+void Jeu::endOfDay() {
+  std::cout << "-------------------------------------------------------------"
+               "------\n";
+  _tour++;
+  try {
+    _company.produce();
+  } catch (const char *e) {
+    printBoxedText(e);
+  }
+  loading_screen(_dev_mode, false, "L'usine tourne à plein régime");
+  int taux_impot = mini_jeu_impots();
+  std::stringstream buf;
+  buf << "4. Bilan du jour\n";
+  buf << "\tItems produits\n";
+  for (auto product : _company.getStorage()) {
+    buf << "\t" << product.getQuantity() << " " << product.to_string()
+        << "(s)"
+        << " Prix total: " << g << product.price() << "$" << r << std::endl;
+  }
+  auto revenue = _company.sellStorage();
+  auto impots_dollars = revenue * taux_impot / 100;
+  _company.payImpots(impots_dollars);
+  auto salaries = _company.payWorkers();
+  auto benefits = revenue - impots_dollars - salaries;
+  buf << "Vos gains (bruts) d'aujourd'hui: " << g << revenue << "$" << r
+      << std::endl;
+  buf << "Impôts = " << revenue << " * " << taux_impot << "% = " << g
+      << impots_dollars << "$" << r << "\n";
+  buf << "Coût des salaire d'aujourd'hui: " << g << salaries << "$" << r
+      << std::endl;
+  buf << "Vos gains (nets) d'aujourd'hui: " << g << benefits << "$" << r
+      << std::endl;
+  std::cout << buf.str();
 }
