@@ -4,8 +4,8 @@
  * Represents the Company
  */
 #include "finishedProduct.hh"
-#include "metal.hh"
-#include "plastic.hh"
+#include "elixir.hh"
+#include "poudre.hh"
 #include "worker.hh"
 #include <vector>
 class Company
@@ -32,8 +32,8 @@ public:
   float getAccumulatedMoney() { return _accumulatedMoney; }
   int getNextLevelGoal();
 
-  Metal metal;
-  Plastic plastic;
+  Elixir elixir;
+  Poudre poudre;
 
 protected:
   int _age;

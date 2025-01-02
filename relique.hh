@@ -2,13 +2,13 @@
 #pragma once
 
 /**
-* a Stappler is a Deluxe finished product
+* Relique magique is a Deluxe finished product
  */
 
 
-class Rubber : public FinishedProduct {
+class Relique : public FinishedProduct {
     public:
-    Stapler();
+    Relique();
 
     protected:
     int _productionTime = 5;

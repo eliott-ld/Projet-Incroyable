@@ -2,13 +2,13 @@
 #pragma once
 
 /**
-* a Scissors is a Deluxe finished product
+* Baguette magique is a Deluxe finished product
  */
 
 
-class Scissors : public FinishedProduct {
+class Baguette : public FinishedProduct {
     public:
-    Scissors();
+    Baguette();
 
     protected:
     int _productionTime = 5;

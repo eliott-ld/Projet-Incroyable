@@ -2,13 +2,13 @@
 #pragma once
 
 /**
-* a Paperclip is a Basic finished product
+* Boule de Crystal is a Basic finished product
  */
 
 
-class Paperclip : public FinishedProduct {
+class Boule : public FinishedProduct {
     public:
-    Paperclip();
+    Boule();
 
     protected:
     int _productionTime = 1;

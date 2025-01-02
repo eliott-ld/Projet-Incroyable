@@ -1,9 +1,9 @@
 #pragma once
 #include "rawMaterials.hh"
 
-class Metal : public RawMaterial {
+class Elixir : public RawMaterial {
 public:
-  Metal(int nbRawMaterials);
+  Elixir(int nbRawMaterials);
 
 protected:
   // il hérite des attributs de rawMaterials

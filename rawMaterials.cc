@@ -1,6 +1,6 @@
 #include "rawMaterials.hh"
 
 std::map<std::string, float> RawMaterial::_price_table = {
-    {"metal", 1.5},
-    {"plastic", 3.2},
+    {"elixir", 1.5},
+    {"poudre", 3.2},
 };

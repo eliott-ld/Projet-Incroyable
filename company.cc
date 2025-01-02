@@ -1,9 +1,9 @@
 #include "company.hh"
-#include "plastic.hh"
+#include "poudre.hh"
 #include "worker.hh"
 
 Company::Company(int nb_employees, float money)
-    : metal(0), plastic(0), _age(0), _money(money), _accumulatedMoney(0),
+    : elixir(0), poudre(0), _age(0), _money(money), _accumulatedMoney(0),
       _workers{Worker()} {}
 
 void Company::hireWorker() {
@@ -12,28 +12,28 @@ void Company::hireWorker() {
 }
 
 int Company::priceRawMaterials(std::string material, int nb) {
-  if (material == "plastic") {
-    Plastic new_plastic(nb);
-    return new_plastic.getPrice();
+  if (material == "poudre") {
+    Poudre new_poudre(nb);
+    return new_poudre.getPrice();
   }
-  if (material == "metal") {
-    Metal new_metal(nb);
-    return new_metal.getPrice();
+  if (material == "elixir") {
+    Elixir new_elixir(nb);
+    return new_elixir.getPrice();
   }
-  throw "material should be metal or plastic";
+  throw "material should be elixir or poudre";
 }
 
 void Company::buyRawMaterials(std::string material, int nb) {
-  if (material == "plastic") {
-    Plastic new_plastic(nb);
-    _money -= new_plastic.getPrice();
-    plastic.add(new_plastic.getNbRawMaterials());
-  } else if (material == "metal") {
-    Metal new_metal(nb);
-    _money -= new_metal.getPrice();
-    metal.add(new_metal.getNbRawMaterials());
+  if (material == "poudre") {
+    Poudre new_poudre(nb);
+    _money -= new_poudre.getPrice();
+    poudre.add(new_poudre.getNbRawMaterials());
+  } else if (material == "elixir") {
+    Elixir new_elixir(nb);
+    _money -= new_elixir.getPrice();
+    elixir.add(new_elixir.getNbRawMaterials());
   } else {
-    throw "material should be metal or plastic";
+    throw "material should be elixir or poudre";
   }
 }
 
@@ -42,17 +42,17 @@ void Company::produce() {
     if (worker.IsWorking()) {
       auto job = worker.currentJob().value();
       for (auto input : job.input) {
-        if (input.getMaterialType() == "metal") {
-          if (metal.getNbRawMaterials() >= input.getNbRawMaterials()) {
-            metal.remove(input.getNbRawMaterials());
+        if (input.getMaterialType() == "elixir") {
+          if (elixir.getNbRawMaterials() >= input.getNbRawMaterials()) {
+            elixir.remove(input.getNbRawMaterials());
           } else {
-            throw "Not enough metal";
+            throw "Not enough elixir";
           }
-        } else if (input.getMaterialType() == "plastic") {
-          if (plastic.getNbRawMaterials() >= input.getNbRawMaterials()) {
-            plastic.remove(input.getNbRawMaterials());
+        } else if (input.getMaterialType() == "poudre") {
+          if (poudre.getNbRawMaterials() >= input.getNbRawMaterials()) {
+            poudre.remove(input.getNbRawMaterials());
           } else {
-            throw "Not enough plastic";
+            throw "Not enough poudre";
           }
         } else {
           throw "Impossible";

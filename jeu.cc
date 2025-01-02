@@ -91,13 +91,13 @@ void Bienvenue() {
       "📜 Règles du jeu : Vous etes propiétaire d'une usine de production "
       "Vous fournissez des supermarchés ayant une demande infinie !\n"
       " 🫡 Vous devez manufacturer des produits à partir de matières "
-      "premières et la vente de ces produits est automatique 🤑\n"
+      "magiques et la vente de ces produits magiques est automatique 🤑\n"
       "⭐️A partir du niveau 3, vous accédez au méthodes de production 'assemble' "
-      "qui permettent de fabriquer des objets de haute valeur 🤓"
+      "qui permettent de fabriquer des objets surnaturels de haute valeur 🤓"
       "\n"
 
-      "🛑 Attention vous ne devez pas trop vous endetter! "
-      "Si vous allez à \033[38;2;0;255;0m-200$\033[32m, VOUS PERDEZ "
+      "🛑 Attention vous ne devez pas trop vous endetter! SINON VOUS SEREZ MAUDIT"
+      "Si vous allez à \033[38;2;0;255;0m-200mana\033[32m, VOUS PERDEZ "
       "💀\n";
   printBoxedText(text, "\e[3m\e[1;32m");
 }
@@ -120,7 +120,6 @@ void bankrupt() {
   std::cout << "\n\n\n\nBankrupt 💸" << std::endl;
   game_over();
 }
-
 int choice(const std::string Phrase) {
   int choix_utilisateur = -1;
   std::cout << Phrase << "\n> ";
@@ -132,6 +131,7 @@ int choice(const std::string Phrase) {
         exit(1);
       }
       std::cin.clear();
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     } else if (choix_utilisateur == 0 || choix_utilisateur == 1) {
       std::cout << std::endl;
       return choix_utilisateur;
@@ -173,14 +173,14 @@ void Jeu::Tour() {
   std::stringstream text;
   text << bb << "Tour " << _tour << r << "\n";
   text << "Vous etes actuellement au niveau: " << p << newLevel << r << "\n";
-  text << "Vous avez actuellement " << g << _company.getBalance() << "$" << r
+  text << "Vous avez actuellement " << g << _company.getBalance() << "mana" << r
        << "\n";
   text << "Vous avez actuellement " << _company.getNbEmployees()
        << " elf(s) employé(s)\n";
-  text << "Vous avez actuellement " << _company.metal.getNbRawMaterials()
-       << " kg de métal\n";
-  text << "Vous avez actuellement " << _company.plastic.getNbRawMaterials()
-       << " kg de plastique\n";
+  text << "Vous avez actuellement " << _company.elixir.getNbRawMaterials()
+       << " kg de elixir\n";
+  text << "Vous avez actuellement " << _company.poudre.getNbRawMaterials()
+       << " kg de poudre\n";
   text << "Progrès du niveau: ";
   showProgressBar(_company.getAccumulatedMoney(), _company.getNextLevelGoal(),
                   text);
@@ -210,7 +210,7 @@ void Jeu::ask_material(std::string material) {
               << material << " (" << price << " > " << _company.getBalance()
               << ")" << std::endl;
   } else {
-    std::cout << "Confirmez-vous vouloir l'acheter pour " << g << price << "$"
+    std::cout << "Confirmez-vous vouloir l'acheter pour " << g << price << "mana"
               << r << " ? (Vous avez bénéficié d'une réduction de "
               << int(RawMaterial::getReduction(_quantity) * 100) << "%)\n";
     int choix = choice("  1 (OUI) ou 0 (NON) ?");
@@ -242,31 +242,31 @@ void Jeu::run() {
 
 void Jeu::handleRawMaterials() {
   int choix = choice(
-      "Souhaitez-vous acheter des matières premières ?\n 1 (OUI) ou 0 (NON)");
+      "Souhaitez-vous acheter des matières magiques ?\n 1 (OUI) ou 0 (NON)");
   if (choix == 1) {
     while (choix == 1) {
-      choix = choice("Quelles matières premières voulez-vous acheter ?\n"
-                     "0. Metal     (\033[38;2;0;255;0m1.5$\033[0m l'unité)\n"
-                     "1. Plastique (\033[38;2;0;255;0m3.2$\033[0m l'unité)");
+      choix = choice("Quelles matières magiques voulez-vous acheter ?\n"
+                     "0. Elixir     (\033[38;2;0;255;0m1.5mana\033[0m l'unité)\n"
+                     "1. Poudre (\033[38;2;0;255;0m3.2mana\033[0m l'unité)");
       if (choix == 0) {
-        ask_material("metal");
+        ask_material("elixir");
       } else if (choix == 1) {
-        ask_material("plastic");
+        ask_material("poudre");
       }
       choix = choice("Souhaitez-vous continuer d'acheter des matières "
-                     "premières ?\n 1 (OUI) ou 0 (NON)");
+                     "magiques ?\n 1 (OUI) ou 0 (NON)");
     }
   }
 }
 
 void Jeu::handleHiring() {
-  std::cout << "2. Engager un employé\n";
-  std::cout << "🛑 ATTENTION 🛑: le salaire quotidien de chaque employer est "
+  std::cout << "2. Engager un elf\n";
+  std::cout << "🛑 ATTENTION 🛑: le salaire quotidien de chaque elf est "
                "de "
-            << g << "10$" << r << " + " << g << "50$" << r
+            << g << "10mana" << r << " + " << g << "50mana" << r
             << " pour le débloquer\n";
-  int choix = choice("Souhaitez-vous engager un employé pour "
-                     "\033[38;2;0;255;0m50$\033[0m ?\n 1 (OUI) ou 0 (NON)");
+  int choix = choice("Souhaitez-vous engager un elf pour "
+                     "\033[38;2;0;255;0m50mana\033[0m ?\n 1 (OUI) ou 0 (NON)");
   if (choix == 1) {
     _company.hireWorker();
   }
@@ -284,11 +284,11 @@ void Jeu::handleProduction() {
 }
 
 void Jeu::reassignWorker() {
-  std::cout << "Quel employé voulez vous ré-affecter ? (";
+  std::cout << "Quel elf voulez vous ré-affecter ? (";
   for (int i = 0; i < _company.getNbEmployees(); i++) {
     if (i != 0)
       std::cout << ", ";
-    std::cout << "employé numéro " << i;
+    std::cout << "elf numéro " << i;
   }
   int employee_id = input(")");
   if (employee_id >= _company.getNbEmployees()) {
@@ -299,16 +299,16 @@ void Jeu::reassignWorker() {
   const std::string header =
       "| Titre                     | Prix unitaire | Entrée              | Sortie | Commande |";
   const std::string jobs[] = {
-      "| Fabriquer une gomme       | \033[38;2;0;255;0m11 $\033[0m          | 2 Plastic           | x2     | 0        |",
-      "| Fabriquer un trombonne    | \033[38;2;0;255;0m25 $\033[0m          | 3 Metal             | x1     | 1        |",
-      "| Assembler des ciseaux     | \033[38;2;0;255;0m50 $\033[0m          | 4 Plastic, 9 Metal  | x1     | 2        |",
-      "| Assembler une aggrapheuse | \033[38;2;0;255;0m70 $\033[0m          | 2 Plastic, 13 Metal | x1     | 3        |",
+      "| Fabriquer une Potion ensorcelante       | \033[38;2;0;255;0m11 mana\033[0m          | 2 Poudre           | x2     | 0        |",
+      "| Fabriquer une Boule de crystal    | \033[38;2;0;255;0m25 mana\033[0m          | 3 Elixir             | x1     | 1        |",
+      "| Assembler une Baguette magique    | \033[38;2;0;255;0m50 mana\033[0m          | 4 Poudre, 9 Elixir  | x1     | 2        |",
+      "| Assembler une Relique magique | \033[38;2;0;255;0m70 mana\033[0m          | 2 Poudre, 13 Elixir | x1     | 3        |",
   };
   const Jobs jobs_list[] = {
-      Jobs::CRAFT_RUBBER,
-      Jobs::CRAFT_PAPERCLIP,
-      Jobs::ASSEMBLE_SCISSORS,
-      Jobs::ASSEMBLE_STAPLER,
+      Jobs::CRAFT_POTION_ENSORCELANTE,
+      Jobs::CRAFT_BOULE_CRYSTAL,
+      Jobs::ASSEMBLE_BAGUETTE_MAGIQUE,
+      Jobs::ASSEMBLE_RELIQUE_MAGIQUE,
   };
   std::size_t jobs_count = sizeof(jobs) / sizeof(jobs[0]);
   if (_company.getLevel() < 3) {
@@ -345,20 +345,20 @@ void Jeu::endOfDay() {
   for (auto product : _company.getStorage()) {
     buf << "\t" << product.getQuantity() << " " << product.to_string()
         << "(s)"
-        << " Prix total: " << g << product.price() << "$" << r << std::endl;
+        << " Prix total: " << g << product.price() << "mana" << r << std::endl;
   }
   auto revenue = _company.sellStorage();
   auto impots_dollars = revenue * taux_impot / 100;
   _company.payImpots(impots_dollars);
   auto salaries = _company.payWorkers();
   auto benefits = revenue - impots_dollars - salaries;
-  buf << "Vos gains (bruts) d'aujourd'hui: " << g << revenue << "$" << r
+  buf << "Vos gains (bruts) d'aujourd'hui: " << g << revenue << "mana" << r
       << std::endl;
   buf << "Impôts = " << revenue << " * " << taux_impot << "% = " << g
-      << impots_dollars << "$" << r << "\n";
-  buf << "Coût des salaire d'aujourd'hui: " << g << salaries << "$" << r
+      << impots_dollars << "mana" << r << "\n";
+  buf << "Coût des salaire d'aujourd'hui: " << g << salaries << "mana" << r
       << std::endl;
-  buf << "Vos gains (nets) d'aujourd'hui: " << g << benefits << "$" << r
+  buf << "Vos gains (nets) d'aujourd'hui: " << g << benefits << "mana" << r
       << std::endl;
   std::cout << buf.str();
 }

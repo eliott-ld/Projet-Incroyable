@@ -32,8 +32,8 @@
       </div>
       <div id="actions">
         <button onclick="hireWorker()">Hire Worker</button>
-        <button onclick="buyMaterials('metal')">Buy Metal</button>
-        <button onclick="buyMaterials('plastic')">Buy Plastic</button>
+        <button onclick="buyMaterials('elixir')">Buy Elixir</button>
+        <button onclick="buyMaterials('poudre')">Buy Poudre</button>
         <button onclick="produce()">Produce</button>
         <button onclick="sellProducts()">Sell Products</button>
         <button onclick="nextTurn()">Next Turn</button>
@@ -47,8 +47,8 @@
       employees: 1,
       money: 200,
       level: 1,
-      metal: 0,
-      plastic: 0,
+      elixir: 0,
+      poudre: 0,
       storage: [],
       accumulatedMoney: 0
     };
@@ -90,9 +90,9 @@
     }
     function produce() {
       play_audio("https://cdn.pixabay.com/audio/2024/08/23/audio_3eb910b974.mp3");
-      if (game.metal > 0 && game.plastic > 0) {
-        game.metal -= 1;
-        game.plastic -= 1;
+      if (game.elixir > 0 && game.poudre > 0) {
+        game.elixir -= 1;
+        game.poudre -= 1;
         game.storage.push('Product');
         log('Produced 1 product.');
       } else {

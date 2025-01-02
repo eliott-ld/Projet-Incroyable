@@ -1,7 +1,7 @@
 company.o: company.cc company.hh
-jeu.o: jeu.cc company.hh items.hh jeu.hh metal.hh rawMaterials.hh \
- plastic.hh
-main.o: main.cc company.hh jeu.hh metal.hh rawMaterials.hh items.hh \
- plastic.hh
-metal.o: metal.cc metal.hh rawMaterials.hh items.hh company.hh
-plastic.o: plastic.cc plastic.hh rawMaterials.hh items.hh company.hh
+jeu.o: jeu.cc company.hh items.hh jeu.hh elixir.hh rawMaterials.hh \
+ poudre.hh
+main.o: main.cc company.hh jeu.hh elixir.hh rawMaterials.hh items.hh \
+ poudre.hh
+elixir.o: elixir.cc elixir.hh rawMaterials.hh items.hh company.hh
+poudre.o: poudre.cc poudre.hh rawMaterials.hh items.hh company.hh

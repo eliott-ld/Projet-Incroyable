@@ -2,13 +2,13 @@
 #pragma once
 
 /**
-* a Rubber is a Basic finished product
+* Potion ensorcelante is a Basic finished product
  */
 
 
-class Rubber : public FinishedProduct {
+class Potion : public FinishedProduct {
     public:
-    Rubber();
+    Potion();
 
     protected:
     int _productionTime = 1;

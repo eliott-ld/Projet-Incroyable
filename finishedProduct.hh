@@ -9,10 +9,10 @@
  */
 
 enum class FinishedProductType {
-  RUBBER,
-  PAPERCLIP,
-  SCISORS,
-  STAPLER,
+  POTION_ENSORCELANTE,
+  BOULE_CRYSTAL,
+  BAGUETTE_MAGIQUE,
+  RELIQUE_MAGIQUE,
 };
 
 class FinishedProduct : public Items {
@@ -28,14 +28,14 @@ public:
   int getQuantity() const { return quantity; }
   std::string to_string() const {
     switch (type) {
-    case FinishedProductType::RUBBER:
-      return "gomme";
-    case FinishedProductType::PAPERCLIP:
-      return "trombonne";
-    case FinishedProductType::SCISORS:
-      return "ciseaux";
-    case FinishedProductType::STAPLER:
-      return "aggrapheuse";
+    case FinishedProductType::POTION_ENSORCELANTE:
+      return "Potion";
+    case FinishedProductType::BOULE_CRYSTAL:
+      return "Boule";
+    case FinishedProductType::BAGUETTE_MAGIQUE:
+      return "Baguette";
+    case FinishedProductType::RELIQUE_MAGIQUE:
+      return "Relique";
     default:
       throw "impossible";
     }
