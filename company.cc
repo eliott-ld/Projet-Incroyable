@@ -90,12 +90,14 @@ int Company::getLevel() {
     return 2;
   case 350 ... 799:
     return 3;
-  case 800 ... 999:
+  case 800 ... 1099:
     return 4;
-  default:
+  case 1100 ... 1400:
     return 5;
   }
+  return 0; // never reached
 }
+
 int Company::getNextLevelGoal() {
   switch ((int)_accumulatedMoney) {
   case 0 ... 199:

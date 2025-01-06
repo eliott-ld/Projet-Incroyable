@@ -97,7 +97,7 @@ void Bienvenue() {
       "\n"
 
       "🛑 Attention vous ne devez pas trop vous endetter! SINON VOUS SEREZ MAUDIT"
-      "Si vous allez à \033[38;2;0;255;0m-200mana\033[32m, VOUS PERDEZ "
+      "Si vous allez à \033[38;2;0;255;0m-200 mana\033[32m, VOUS PERDEZ "
       "💀\n";
   printBoxedText(text, "\e[3m\e[1;32m");
 }
@@ -153,6 +153,10 @@ void Jeu::Tour() {
   } else if (newLevel != level) {
     std::stringstream text;
     text << "🎉 Bravo! Vous avez atteint le niveau " << newLevel << "🎉\n";
+    if (newLevel == 3) {
+      text << "🫡 Vous avez débloqué la méthode de production 'assemble, vous pouvez manufacturer des produits DELUXE' 🫡\n";
+    }
+  
     for (int i = 0; i < 5; i++) {
       if (i < newLevel) {
         text << "⬛️";
@@ -173,7 +177,7 @@ void Jeu::Tour() {
   std::stringstream text;
   text << bb << "Tour " << _tour << r << "\n";
   text << "Vous etes actuellement au niveau: " << p << newLevel << r << "\n";
-  text << "Vous avez actuellement " << g << _company.getBalance() << "mana" << r
+  text << "Vous avez actuellement " << g << _company.getBalance() << " mana" << r
        << "\n";
   text << "Vous avez actuellement " << _company.getNbEmployees()
        << " elf(s) employé(s)\n";
@@ -210,7 +214,7 @@ void Jeu::ask_material(std::string material) {
               << material << " (" << price << " > " << _company.getBalance()
               << ")" << std::endl;
   } else {
-    std::cout << "Confirmez-vous vouloir l'acheter pour " << g << price << "mana"
+    std::cout << "Confirmez-vous vouloir l'acheter pour " << g << price << " mana"
               << r << " ? (Vous avez bénéficié d'une réduction de "
               << int(RawMaterial::getReduction(_quantity) * 100) << "%)\n";
     int choix = choice("  1 (OUI) ou 0 (NON) ?");
@@ -246,8 +250,8 @@ void Jeu::handleRawMaterials() {
   if (choix == 1) {
     while (choix == 1) {
       choix = choice("Quelles matières magiques voulez-vous acheter ?\n"
-                     "0. Elixir     (\033[38;2;0;255;0m1.5mana\033[0m l'unité)\n"
-                     "1. Poudre (\033[38;2;0;255;0m3.2mana\033[0m l'unité)");
+                     "0. Elixir     (\033[38;2;0;255;0m1.5 mana\033[0m l'unité)\n"
+                     "1. Poudre (\033[38;2;0;255;0m3.2 mana\033[0m l'unité)");
       if (choix == 0) {
         ask_material("elixir");
       } else if (choix == 1) {
@@ -263,10 +267,10 @@ void Jeu::handleHiring() {
   std::cout << "2. Engager un elf\n";
   std::cout << "🛑 ATTENTION 🛑: le salaire quotidien de chaque elf est "
                "de "
-            << g << "10mana" << r << " + " << g << "50mana" << r
+            << g << "10 mana" << r << " + " << g << "50 mana" << r
             << " pour le débloquer\n";
   int choix = choice("Souhaitez-vous engager un elf pour "
-                     "\033[38;2;0;255;0m50mana\033[0m ?\n 1 (OUI) ou 0 (NON)");
+                     "\033[38;2;0;255;0m50 mana\033[0m ?\n 1 (OUI) ou 0 (NON)");
   if (choix == 1) {
     _company.hireWorker();
   }
@@ -299,10 +303,10 @@ void Jeu::reassignWorker() {
   const std::string header =
       "| Titre                     | Prix unitaire | Entrée              | Sortie | Commande |";
   const std::string jobs[] = {
-      "| Fabriquer une Potion ensorcelante       | \033[38;2;0;255;0m11 mana\033[0m          | 2 Poudre           | x2     | 0        |",
-      "| Fabriquer une Boule de crystal    | \033[38;2;0;255;0m25 mana\033[0m          | 3 Elixir             | x1     | 1        |",
-      "| Assembler une Baguette magique    | \033[38;2;0;255;0m50 mana\033[0m          | 4 Poudre, 9 Elixir  | x1     | 2        |",
-      "| Assembler une Relique magique | \033[38;2;0;255;0m70 mana\033[0m          | 2 Poudre, 13 Elixir | x1     | 3        |",
+      "| Fabriquer une Potion ensorcelante       | \033[38;2;0;255;0m11  mana\033[0m          | 2 Poudre            | x2     | 0        |",
+      "| Fabriquer une Boule de crystal          | \033[38;2;0;255;0m25  mana\033[0m          | 3 Elixir            | x1     | 1        |",
+      "| Assembler une Baguette magique          | \033[38;2;0;255;0m50  mana\033[0m          | 4 Poudre, 9 Elixir  | x1     | 2        |",
+      "| Assembler une Relique magique           | \033[38;2;0;255;0m70  mana\033[0m          | 2 Poudre, 13 Elixir | x1     | 3        |",
   };
   const Jobs jobs_list[] = {
       Jobs::CRAFT_POTION_ENSORCELANTE,
@@ -345,20 +349,20 @@ void Jeu::endOfDay() {
   for (auto product : _company.getStorage()) {
     buf << "\t" << product.getQuantity() << " " << product.to_string()
         << "(s)"
-        << " Prix total: " << g << product.price() << "mana" << r << std::endl;
+        << " Prix total: " << g << product.price() << " mana" << r << std::endl;
   }
   auto revenue = _company.sellStorage();
   auto impots_dollars = revenue * taux_impot / 100;
   _company.payImpots(impots_dollars);
   auto salaries = _company.payWorkers();
   auto benefits = revenue - impots_dollars - salaries;
-  buf << "Vos gains (bruts) d'aujourd'hui: " << g << revenue << "mana" << r
+  buf << "Vos gains (bruts) d'aujourd'hui: " << g << revenue << " mana" << r
       << std::endl;
   buf << "Impôts = " << revenue << " * " << taux_impot << "% = " << g
-      << impots_dollars << "mana" << r << "\n";
-  buf << "Coût des salaire d'aujourd'hui: " << g << salaries << "mana" << r
+      << impots_dollars << " mana" << r << "\n";
+  buf << "Coût des salaire d'aujourd'hui: " << g << salaries << " mana" << r
       << std::endl;
-  buf << "Vos gains (nets) d'aujourd'hui: " << g << benefits << "mana" << r
+  buf << "Vos gains (nets) d'aujourd'hui: " << g << benefits << " mana" << r
       << std::endl;
   std::cout << buf.str();
 }

@@ -222,6 +222,16 @@ public:
     }
     score /= 10;
     cout << ") / 10 = " << score << "% 💸\n";
+
+    if (score < 10) {
+        cout << "Félicitations, vous êtes un génie fiscal! 🧠💰\n";
+    } else if (score < 30) {
+        cout << "Pas mal, vous avez réussi à réduire vos impôts! 🤑\n";
+    } else if (score < 50) {
+        cout << "C'est un taux assez élevé... Dommage ! \n";
+    } else {
+        cout << "Oups, il semble que vos impôts soient très élevés... 😔\n";
+    }
     return score;
   }
 };
