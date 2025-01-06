@@ -7,7 +7,6 @@ EXEC= factory-game
 
 all: $(EXEC)
 
-
 $(EXEC): $(OBJ)
 	$(CC) $^ -o $@   $(LIBFLAGS)
 
