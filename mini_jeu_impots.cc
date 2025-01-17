@@ -46,7 +46,7 @@ void resetTerminalMode() {
 // Fonction pour afficher la barre de progression
 void showProgressBar(int count, int total, std::ostream &out,
                      bool carriage_return) {
-  int progress = (count * 50) / total; // Calculer la progression
+  int progress = (count * 50) / total; 
   if (carriage_return)
     out << "\r";
   out << "[";
@@ -62,7 +62,7 @@ void showProgressBar(int count, int total, std::ostream &out,
 
 // Fonction pour lire les touches une par une
 bool readKeyPresses() {
-  const int maxCount = 100; // Nombre maximum de touches à lire
+  const int maxCount = 100;
   int count = 0;
 
   setTerminalMode(); // Configurer le terminal pour ne pas attendre "Entrée"
@@ -93,8 +93,8 @@ public:
   vector<int> worth;
   string color;
   bool isWild;
-  //
-  // Default constructor
+  
+
   SlotItem() : number(0), color("\033[0m"), isWild(false) {}
 
   SlotItem(int number, string color = "", bool isWild = false)
@@ -241,17 +241,16 @@ vector<string> createGradient(int numColors) {
   if (numColors <= 0)
     return gradient;
 
-  // Define the start and end colors for the gradient (RGB)
+  //start and end colors for the gradient of taxes
   int startR = 255, startG = 255, startB = 255; // White
   int endR = 255, endG = 0, endB = 0;           // Bright Red
 
   for (int i = 0; i < numColors; ++i) {
-    // Interpolate the RGB values
+
     int r = startR + (endR - startR) * i / (numColors - 1);
     int g = startG + (endG - startG) * i / (numColors - 1);
     int b = startB + (endB - startB) * i / (numColors - 1);
 
-    // Create the color escape code
     ostringstream colorCode;
     colorCode << "\033[38;2;" << r << ";" << g << ";" << b << "m";
 
@@ -294,4 +293,3 @@ int mini_jeu_impots() {
   return score;
 }
 
-// int main() { mini_jeu_impots(); }

@@ -1,11 +1,12 @@
-company.o: company.cc company.hh
-elixir.o: elixir.cc elixir.hh
-finishedProduct.o: finishedProduct.cc finishedProduct.hh
-jeu.o: jeu.cc jeu.hh
-job.o: job.cc job.hh
-main.o: main.cc company.hh worker.hh
-mini_jeu_impots.o: mini_jeu_impots.cc mini_jeu_impots.hh
-poudre.o: poudre.cc poudre.hh
-rawMaterials.o: rawMaterials.cc rawMaterials.hh
-text_box.o: text_box.cc text_box.hh
-worker.o: worker.cc worker.hh
+-MM
+company.cc
+elixir.cc
+finishedProduct.cc
+jeu.cc
+job.cc
+main.cc
+mini_jeu_impots.cc
+poudre.cc
+rawMaterials.cc
+text_box.cc
+worker.cc

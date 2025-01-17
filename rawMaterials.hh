@@ -17,6 +17,10 @@ public:
            (1 - getReduction(_nbRawMaterials));
   }
 
+
+
+
+//reduction appliquée si un gros volume est acheté (max 20%)
   static float getReduction(int nbRawMaterials) {
     if (nbRawMaterials < 0)
       throw "Impossible argument négatif 🤬";

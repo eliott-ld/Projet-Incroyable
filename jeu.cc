@@ -28,8 +28,6 @@ int load(std::string message, int time_secs) {
   return 0;
 }
 
-
-// WARING: This function is too long (30 lines). Consider refactoring.
 void loading_screen(bool dev_mode, bool bienvenue,
                     std::string message = "Loading...") {
   std::string original = message + "\n"
@@ -52,10 +50,8 @@ void loading_screen(bool dev_mode, bool bienvenue,
                                    "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \n";
   std::string text = original;
 
-  // Seed random number generator
   std::srand(std::time(nullptr));
 
-  // Duration for the animation in milliseconds
   const int duration = dev_mode ? 100 : 5000; // 3 seconds
   const int tickDuration = 100;               // 100 ms per frame
   const int iterations = duration / tickDuration;
@@ -69,8 +65,7 @@ void loading_screen(bool dev_mode, bool bienvenue,
     }
 
     // Clear the console
-    std::cout << "\x1B[2J\x1B[H"; // ANSI escape codes to clear screen and reset
-                                  // cursor
+    std::cout << "\x1B[2J\x1B[H"; 
 
     if (bienvenue)
       Bienvenue();
@@ -78,12 +73,11 @@ void loading_screen(bool dev_mode, bool bienvenue,
     // std::cout << text << std::endl;
     printBoxedText(text, "\e[0;33m", 104);
 
-    // Wait for the next frame
     std::this_thread::sleep_for(std::chrono::milliseconds(tickDuration));
   }
-  // Clear the console
-  std::cout << "\x1B[2J\x1B[H"; // ANSI escape codes to clear screen and reset
-                                // cursor
+
+  std::cout << "\x1B[2J\x1B[H"; 
+                                
 }
 void Bienvenue() {
   const std::string text =
@@ -142,52 +136,38 @@ int choice(const std::string Phrase) {
     }
   }
 }
-// WARING: This function is too long (30 lines). Consider refactoring.
+
 void Jeu::Tour() {
   auto newLevel = _company.getLevel();
   if (newLevel == 5) {
-    printBoxedText("Félicitations Grand Industriel !!! Vous avez atteint le "
-                   "niveau maximum ! 🫡 ",
-                   "\e[1;93m", 6, 3, 2, 1);
+    printBoxedText("Félicitations Grand Industriel !!! Vous avez atteint le niveau maximum ! 🫡 ", "\e[1;93m", 6, 3, 2, 1);
     exit(0);
   } else if (newLevel != level) {
     std::stringstream text;
     text << "🎉 Bravo! Vous avez atteint le niveau " << newLevel << "🎉\n";
     if (newLevel == 3) {
-      text << "🫡 Vous avez débloqué la méthode de production 'assemble, vous pouvez manufacturer des produits DELUXE' 🫡\n";
+      text << "🫡 Vous avez débloqué la méthode de production Assembler, vous pouvez manufacturer des produits DELUXE' 🫡\n";
     }
-  
-    for (int i = 0; i < 5; i++) {
-      if (i < newLevel) {
-        text << "⬛️";
-      } else {
-        text << ".";
-      }
+    for (int i = 0; i < 5; i++) {      //affichage des étoiles du niveau
+      if (i < newLevel) text << "⬛️";
+      else text << ".";
     }
     text << "\n";
-
     printBoxedText(text.str(), "\033[38;5;220m", 6, 3, 41, 1);
   }
-
   level = newLevel;
-
   const auto r = "\e[0;0m";
   const auto bb = "\e[1;34m";
   const auto p = "\e[1;35m";
   std::stringstream text;
   text << bb << "Tour " << _tour << r << "\n";
   text << "Vous etes actuellement au niveau: " << p << newLevel << r << "\n";
-  text << "Vous avez actuellement " << g << _company.getBalance() << " mana" << r
-       << "\n";
-  text << "Vous avez actuellement " << _company.getNbEmployees()
-       << " elf(s) employé(s)\n";
-  text << "Vous avez actuellement " << _company.elixir.getNbRawMaterials()
-       << " kg de elixir\n";
-  text << "Vous avez actuellement " << _company.poudre.getNbRawMaterials()
-       << " kg de poudre\n";
+  text << "Vous avez actuellement " << g << _company.getBalance() << " mana" << r << "\n";
+  text << "Vous avez actuellement " << _company.getNbEmployees() << " elf(s) employé(s)\n";
+  text << "Vous avez actuellement " << _company.elixir.getNbRawMaterials() << " kg de elixir\n";
+  text << "Vous avez actuellement " << _company.poudre.getNbRawMaterials() << " kg de poudre\n";
   text << "Progrès du niveau: ";
-  showProgressBar(_company.getAccumulatedMoney(), _company.getNextLevelGoal(),
-                  text);
+  showProgressBar(_company.getAccumulatedMoney(), _company.getNextLevelGoal(), text);
   text << "\n";
   printBoxedText(text.str(), "", 6, 3, 38, 1);
 }
@@ -224,7 +204,6 @@ void Jeu::ask_material(std::string material) {
   }
 }
 
-// WARING: This function is too long (30 lines). Consider refactoring.
 void Jeu::run() {
   loading_screen(_dev_mode, true);
   if (_tour == 0) {
@@ -301,7 +280,7 @@ void Jeu::reassignWorker() {
     return;
   }
   const std::string header =
-      "| Titre                     | Prix unitaire | Entrée              | Sortie | Commande |";
+      "| Titre                                   | Prix unitaire | Entrée              | Sortie | Commande |";
   const std::string jobs[] = {
       "| Fabriquer une Potion ensorcelante       | \033[38;2;0;255;0m11  mana\033[0m          | 2 Poudre            | x2     | 0        |",
       "| Fabriquer une Boule de crystal          | \033[38;2;0;255;0m25  mana\033[0m          | 3 Elixir            | x1     | 1        |",
