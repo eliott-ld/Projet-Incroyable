@@ -1,9 +1,9 @@
-CC=g++ -g
-CCFLAGS= -Wall -Werror
-LIBFLAGS=
-SRC= $(wildcard *.cc)
-OBJ= $(SRC:.cc=.o)
-EXEC= factory-game
+CC = g++ -g
+CCFLAGS = -Wall -Werror
+LIBFLAGS =
+SRC = $(wildcard *.cc)
+OBJ = $(SRC:.cc=.o)
+EXEC = factory-game
 
 all: $(EXEC)
 
@@ -30,4 +30,3 @@ clean:
 distclean:
 	cd tests; make clean
 	rm -f $(OBJ) $(EXEC)
-

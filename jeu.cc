@@ -280,7 +280,7 @@ void Jeu::reassignWorker() {
     return;
   }
   const std::string header =
-      "| Titre                                   | Prix unitaire | Entrée              | Sortie | Commande |";
+      "| Titre                                   | Prix unitaire     | Entrée              | Sortie | Commande |";
   const std::string jobs[] = {
       "| Fabriquer une Potion ensorcelante       | \033[38;2;0;255;0m11  mana\033[0m          | 2 Poudre            | x2     | 0        |",
       "| Fabriquer une Boule de crystal          | \033[38;2;0;255;0m25  mana\033[0m          | 3 Elixir            | x1     | 1        |",

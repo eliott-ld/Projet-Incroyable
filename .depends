@@ -1,12 +1,17 @@
--MM
-company.cc
-elixir.cc
-finishedProduct.cc
-jeu.cc
-job.cc
-main.cc
-mini_jeu_impots.cc
-poudre.cc
-rawMaterials.cc
-text_box.cc
-worker.cc
+company.o: company.cc company.hh finishedProduct.hh items.hh elixir.hh \
+ rawMaterials.hh poudre.hh worker.hh job.hh
+elixir.o: elixir.cc elixir.hh rawMaterials.hh items.hh
+finishedProduct.o: finishedProduct.cc finishedProduct.hh items.hh
+jeu.o: jeu.cc company.hh finishedProduct.hh items.hh elixir.hh \
+ rawMaterials.hh poudre.hh worker.hh job.hh jeu.hh mini_jeu_impots.hh \
+ text_box.hh
+job.o: job.cc job.hh finishedProduct.hh items.hh rawMaterials.hh \
+ elixir.hh poudre.hh
+main.o: main.cc jeu.hh company.hh finishedProduct.hh items.hh elixir.hh \
+ rawMaterials.hh poudre.hh worker.hh job.hh
+mini_jeu_impots.o: mini_jeu_impots.cc mini_jeu_impots.hh text_box.hh
+poudre.o: poudre.cc poudre.hh rawMaterials.hh items.hh
+rawMaterials.o: rawMaterials.cc rawMaterials.hh items.hh
+text_box.o: text_box.cc text_box.hh
+worker.o: worker.cc worker.hh job.hh finishedProduct.hh items.hh \
+ rawMaterials.hh
