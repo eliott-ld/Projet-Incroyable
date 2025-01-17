@@ -1,3 +1,5 @@
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+
 #include "doctest.h"
 #include "rawMaterials.hh"
 #include <iostream>
@@ -20,14 +22,4 @@ TEST_CASE("3: RawMaterial getReduction with 10 to 49 raw materials") {
 TEST_CASE("4: RawMaterial getReduction with 50 or more raw materials") {
     CHECK(RawMaterial::getReduction(50) == 0.2f);
     CHECK(RawMaterial::getReduction(100) == 0.2f);
-}
-
-int main(int argc, char** argv) {
-    doctest::Context context;
-    context.applyCommandLine(argc, argv);
-    int res = context.run();
-    if (context.shouldExit()) {
-        return res;
-    }
-    return res;
 }

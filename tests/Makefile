@@ -2,7 +2,7 @@
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -g -Wall -Werror
+CXXFLAGS = -g -Wall -Werror -I..
 
 # Executable name
 EXEC = testcase
@@ -14,7 +14,7 @@ SRCS = testcase.cc ../rawMaterials.cc
 HDRS = ../rawMaterials.hh
 
 # Object files
-OBJS = $(SRCS:.cc=.o)
+OBJS = testcase.o rawMaterials.o
 
 # Default target
 all: $(EXEC)
@@ -24,8 +24,11 @@ $(EXEC): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
 # Compile source files into object files
-%.o: %.cc $(HDRS)
-	$(CXX) $(CXXFLAGS) -c $< -I..
+testcase.o: testcase.cc $(HDRS)
+	$(CXX) $(CXXFLAGS) -c testcase.cc
+
+rawMaterials.o: ../rawMaterials.cc $(HDRS)
+	$(CXX) $(CXXFLAGS) -c ../rawMaterials.cc -o rawMaterials.o
 
 # Clean up build files
 clean:

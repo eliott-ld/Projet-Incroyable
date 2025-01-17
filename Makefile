@@ -22,7 +22,7 @@ $(EXEC): $(OBJ)
 -include .depends
 
 testcase:
-	cd tests; make
+	cd tests; make run
 
 clean:
 	rm -f $(OBJ) $(EXEC)
