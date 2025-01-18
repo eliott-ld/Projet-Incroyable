@@ -27,11 +27,11 @@ void Company::buyRawMaterials(std::string material, int nb) {
   if (material == "poudre") {
     Poudre new_poudre(nb);
     _money -= new_poudre.getPrice();
-    poudre.add(new_poudre.getNbRawMaterials());
+    poudre += new_poudre;
   } else if (material == "elixir") {
     Elixir new_elixir(nb);
     _money -= new_elixir.getPrice();
-    elixir.add(new_elixir.getNbRawMaterials());
+    elixir += new_elixir;
   } else {
     throw "material should be elixir or poudre";
   }
@@ -44,13 +44,13 @@ void Company::produce() {
       for (auto input : job.input) {
         if (input.getMaterialType() == "elixir") {
           if (elixir.getNbRawMaterials() >= input.getNbRawMaterials()) {
-            elixir.remove(input.getNbRawMaterials());
+            elixir -= input;
           } else {
             throw "Not enough elixir";
           }
         } else if (input.getMaterialType() == "poudre") {
           if (poudre.getNbRawMaterials() >= input.getNbRawMaterials()) {
-            poudre.remove(input.getNbRawMaterials());
+            poudre -= input;
           } else {
             throw "Not enough poudre";
           }
@@ -120,3 +120,4 @@ float Company::payWorkers() {
 }
 
 void Company::payImpots(float dollars) { _money -= dollars; }
+

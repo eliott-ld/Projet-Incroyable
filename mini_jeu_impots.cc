@@ -69,6 +69,8 @@ bool readKeyPresses() {
 
   cout << "Spammez la touche espace pour pratiquer l'évasion fiscale (Q pour "
           "quitter) :\n";
+  cout << "\"On dit souvent que l'argent ne fait pas le bonheur, "
+            "mais il permet de négocier un délai de paiement d'impôts !\" 🤭\n\n";
 
   while (count < maxCount) {
     char ch = getchar();          // Lire la touche pressée
@@ -167,10 +169,13 @@ public:
   void display() {
     cout << "\033[2J\033[H"; // Clear screen and move cursor to top
     printBoxedText(
-        "Avant de passer au bilan, c'est l'heure de payer vos impôts! 🏦💸",
-        "\033[38;2;0;255;0m");
+        "Avant de passer au bilan, c'est l'heure de payer vos impôts! 🏦💸\n"
+        "\"Heureusement que l'humour n'est pas encore imposable, "
+        "sinon on passerait tous en déficit !\" 🤣",
+        "\033[38;2;0;255;0m"
+    );
     cout << "\n\033[1;36m====== LES IMPÔTS ======\033[0m\n\n";
-
+    
     const int w = to_string(MAX_N - 1).size(); // Max number of digits
     for (int row = 0; row < rows; ++row) {
       for (size_t reelIndex = 0; reelIndex < reels.size() + 1; ++reelIndex) {
@@ -224,13 +229,17 @@ public:
     cout << ") / 10 = " << score << "% 💸\n";
 
     if (score < 10) {
-        cout << "Félicitations, vous êtes un génie fiscal! 🧠💰\n";
+        cout << "Félicitations, vous êtes un véritable génie fiscal! 🧠💰\n";
+        cout << "À ce niveau-là, même le fisc se demande si vous existez vraiment... 🤔\n";
     } else if (score < 30) {
         cout << "Pas mal, vous avez réussi à réduire vos impôts! 🤑\n";
+        cout << "On raconte que vous vous faites livrer vos factures en colissimo pour avoir plus de temps à déduire ! 📦\n";
     } else if (score < 50) {
-        cout << "C'est un taux assez élevé... Dommage ! \n";
+        cout << "C'est un taux assez élevé... Dommage !\n";
+        cout << "Mais ne vous inquiétez pas, un jour peut-être le gouvernement vous enverra une carte de remerciement ! 😅\n";
     } else {
         cout << "Oups, il semble que vos impôts soient très élevés... 😔\n";
+        cout << "Vous payez tellement que l'État songe à vous mettre sur la liste des donateurs officiels... 💸\n";
     }
     return score;
   }
@@ -288,6 +297,7 @@ int mini_jeu_impots() {
   } else {
     score = 100;
     cout << "Dommage, vous payerez 100% d'impots 🤷" << endl;
+    cout << "\"Au moins, vous n'aurez plus besoin de décider quoi faire de votre argent... Le fisc le fera pour vous !\" 😆\n\n";
   }
 
   return score;

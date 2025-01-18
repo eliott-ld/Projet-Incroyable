@@ -92,7 +92,9 @@ void Bienvenue() {
 
       "🛑 Attention vous ne devez pas trop vous endetter! SINON VOUS SEREZ MAUDIT"
       "Si vous allez à \033[38;2;0;255;0m-200 mana\033[32m, VOUS PERDEZ "
-      "💀\n";
+      "💀\n"
+      "💡 Petit conseil : \"Ne perdez pas tout votre mana en impôts, sinon même les démons "
+      "vous enverront leur déclaration !\" 😈\n";
   printBoxedText(text, "\e[3m\e[1;32m");
 }
 
@@ -168,6 +170,8 @@ void Jeu::Tour() {
   text << "Vous avez actuellement " << _company.poudre.getNbRawMaterials() << " kg de poudre\n";
   text << "Progrès du niveau: ";
   showProgressBar(_company.getAccumulatedMoney(), _company.getNextLevelGoal(), text);
+  text << "\n\nEt rappelez-vous : \"Mieux vaut réinvestir vos gains en potions magiques qu'en impôts,\n "
+         << "au moins vos elfes seront heureux !\" ✨\n";
   text << "\n";
   printBoxedText(text.str(), "", 6, 3, 38, 1);
 }

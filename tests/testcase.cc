@@ -23,3 +23,4 @@ TEST_CASE("4: RawMaterial getReduction with 50 or more raw materials") {
     CHECK(RawMaterial::getReduction(50) == 0.2f);
     CHECK(RawMaterial::getReduction(100) == 0.2f);
 }
+

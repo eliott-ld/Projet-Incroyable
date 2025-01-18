@@ -19,11 +19,17 @@ public:
 //reduction appliquée si un gros volume est acheté (max 20%)
   static float getReduction(int nbRawMaterials ) ;
 
-  void add(int nb) { _nbRawMaterials += nb; }
-  void remove(int nb) { _nbRawMaterials -= nb; }
-
+  RawMaterial& operator+=(const RawMaterial& other) {
+    _nbRawMaterials += other._nbRawMaterials;
+    return *this;
+  }
+  RawMaterial& operator-=(const RawMaterial& other) {
+    _nbRawMaterials -= other._nbRawMaterials;
+    return *this;
+  }
 protected:
   std::string _materialType;
   static std::map<std::string, float> _price_table; // map : product / price
   int _nbRawMaterials;
 };
+
