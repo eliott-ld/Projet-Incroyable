@@ -3,7 +3,7 @@ CCFLAGS = -Wall -Werror
 LIBFLAGS =
 SRC = $(wildcard *.cc)
 OBJ = $(SRC:.cc=.o)
-EXEC = factory-game
+EXEC = fantasy-factory-game
 
 all: $(EXEC)
 
