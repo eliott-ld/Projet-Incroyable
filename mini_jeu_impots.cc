@@ -22,30 +22,23 @@ const int MAX_N = 101;
 const char ROOFCEIL = '-';
 const char WALLS = '|';
 
-// Fonction pour configurer le terminal en mode non-bloquant
 void setTerminalMode() {
   struct termios new_settings;
-  tcgetattr(STDIN_FILENO,
-            &new_settings); // Récupérer les paramètres actuels du terminal
-  new_settings.c_lflag &= ~ICANON; // Désactiver le mode canonique
-  new_settings.c_lflag &= ~ECHO;   // Désactiver l'affichage des caractères
-  tcsetattr(STDIN_FILENO, TCSANOW,
-            &new_settings); // Appliquer les nouveaux paramètres
+  tcgetattr(STDIN_FILENO, &new_settings);
+  new_settings.c_lflag &= ~ICANON;
+  new_settings.c_lflag &= ~ECHO;
+  tcsetattr(STDIN_FILENO, TCSANOW, &new_settings);
 }
 
-// Fonction pour réinitialiser le terminal
 void resetTerminalMode() {
   struct termios original_settings;
   tcgetattr(STDIN_FILENO, &original_settings);
-  original_settings.c_lflag |= ICANON; // Réactiver le mode canonique
-  original_settings.c_lflag |= ECHO;   // Réactiver l'affichage des caractères
-  tcsetattr(STDIN_FILENO, TCSANOW,
-            &original_settings); // Appliquer les paramètres d'origine
+  original_settings.c_lflag |= ICANON;
+  original_settings.c_lflag |= ECHO;
+  tcsetattr(STDIN_FILENO, TCSANOW, &original_settings);
 }
 
-// Fonction pour afficher la barre de progression
-void showProgressBar(int count, int total, std::ostream &out,
-                     bool carriage_return) {
+void showProgressBar(int count, int total, std::ostream &out, bool carriage_return) {
   int progress = (count * 50) / total; 
   if (carriage_return)
     out << "\r";
@@ -60,35 +53,32 @@ void showProgressBar(int count, int total, std::ostream &out,
   out.flush();
 }
 
-// Fonction pour lire les touches une par une
 bool readKeyPresses() {
   const int maxCount = 100;
   int count = 0;
 
-  setTerminalMode(); // Configurer le terminal pour ne pas attendre "Entrée"
+  setTerminalMode();
 
-  cout << "Spammez la touche espace pour pratiquer l'évasion fiscale (Q pour "
-          "quitter) :\n";
-  cout << "\"On dit souvent que l'argent ne fait pas le bonheur, "
-            "mais il permet de négocier un délai de paiement d'impôts !\" 🤭\n\n";
+  cout << "Spammez la touche espace pour pratiquer l'évasion fiscale (Q pour quitter) :\n";
+  cout << "\"On dit souvent que l'argent ne fait pas le bonheur, mais il permet de négocier un délai de paiement d'impôts !\" 🤭\n\n";
 
   while (count < maxCount) {
-    char ch = getchar();          // Lire la touche pressée
-    if (ch == 'q' || ch == 'Q') { // Quitter si la touche 'q' ou 'Q' est pressée
+    char ch = getchar();
+    if (ch == 'q' || ch == 'Q') {
       cout << '\n';
-      resetTerminalMode(); // Réinitialiser le terminal à son mode normal
+      resetTerminalMode();
       return false;
     }
 
-    // Afficher la barre de progression à chaque touche pressée
     count++;
     showProgressBar(count, maxCount, std::cout, true);
   }
 
   cout << endl;
-  resetTerminalMode(); // Réinitialiser le terminal à son mode normal
+  resetTerminalMode();
   return true;
 }
+
 class SlotItem {
 public:
   int number;
@@ -96,7 +86,6 @@ public:
   string color;
   bool isWild;
   
-
   SlotItem() : number(0), color("\033[0m"), isWild(false) {}
 
   SlotItem(int number, string color = "", bool isWild = false)
@@ -108,7 +97,7 @@ public:
     cout << std::string(
         (max_n_digit - n_digit) / 2 + (max_n_digit - n_digit) % 2, ' ');
     cout << std::string((max_n_digit - n_digit) / 2, ' ');
-    cout << color << number << "\033[0m"; // Reset color after print
+    cout << color << number << "\033[0m";
   }
 };
 
@@ -167,16 +156,15 @@ public:
   }
 
   void display() {
-    cout << "\033[2J\033[H"; // Clear screen and move cursor to top
+    cout << "\033[2J\033[H";
     printBoxedText(
         "Avant de passer au bilan, c'est l'heure de payer vos impôts! 🏦💸\n"
-        "\"Heureusement que l'humour n'est pas encore imposable, "
-        "sinon on passerait tous en déficit !\" 🤣",
+        "\"Heureusement que l'humour n'est pas encore imposable, sinon on passerait tous en déficit !\" 🤣",
         "\033[38;2;0;255;0m"
     );
     cout << "\n\033[1;36m====== LES IMPÔTS ======\033[0m\n\n";
     
-    const int w = to_string(MAX_N - 1).size(); // Max number of digits
+    const int w = to_string(MAX_N - 1).size();
     for (int row = 0; row < rows; ++row) {
       for (size_t reelIndex = 0; reelIndex < reels.size() + 1; ++reelIndex) {
         cout << std::string(w + 2, ROOFCEIL);
@@ -244,15 +232,14 @@ public:
     return score;
   }
 };
-// Function to create gradient colors
+
 vector<string> createGradient(int numColors) {
   vector<string> gradient;
   if (numColors <= 0)
     return gradient;
 
-  //start and end colors for the gradient of taxes
-  int startR = 255, startG = 255, startB = 255; // White
-  int endR = 255, endG = 0, endB = 0;           // Bright Red
+  int startR = 255, startG = 255, startB = 255;
+  int endR = 255, endG = 0, endB = 0;
 
   for (int i = 0; i < numColors; ++i) {
 
@@ -283,7 +270,7 @@ int mini_jeu_impots() {
   random_device rd;
   mt19937 gen(rd());
   for (int reel = 0; reel < N_REELS; ++reel) {
-    shuffle(numbers.begin(), numbers.end(), gen); // Randomly shuffle the list
+    shuffle(numbers.begin(), numbers.end(), gen);
     machine.setupReel(reel, numbers);
   }
 
@@ -302,4 +289,3 @@ int mini_jeu_impots() {
 
   return score;
 }
-

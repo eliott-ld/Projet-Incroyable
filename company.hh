@@ -8,14 +8,12 @@
 #include "poudre.hh"
 #include "worker.hh"
 #include <vector>
-class Company
 
+class Company
 {
 public:
   Company(int nb_employees, float money);
-  // maybe void hireworker(int nb);
   void hireWorker();
-  // maybe fireworker();
   int getLevel();
   float getBalance() { return _money; }
   int getNbEmployees() { return _workers.size(); }
@@ -31,16 +29,14 @@ public:
   void payImpots(float dollars);
   float getAccumulatedMoney() { return _accumulatedMoney; }
   int getNextLevelGoal();
-
   Elixir elixir;
   Poudre poudre;
-
+)
 protected:
   int _age;
   float _money;
   float _accumulatedMoney;
 
   std::vector<Worker> _workers;
-  // inventaire vendu à la fin de la semaine
   std::vector<FinishedProduct> storage;
 };

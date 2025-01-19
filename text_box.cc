@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-// Function to calculate the display width of a string (UTF-8 aware)
+// Fonction pour calculer la largeur d'affichage d'une chaîne (compatible UTF-8)
 size_t getDisplayWidth(const std::string &line) {
   size_t width = 0;
   for (size_t i = 0; i < line.length();) {
@@ -13,21 +13,21 @@ size_t getDisplayWidth(const std::string &line) {
 
     // \033[38;2;0;255;0m
 
-    // Determine the number of bytes in the current character
+    // Déterminer le nombre d'octets dans le caractère actuel
     if ((ch & 0x80) == 0) {
-      charLen = 1; // 1-byte ASCII
-      width += 1;  // Single-width
+      charLen = 1; // ASCII 1 octet
+      width += 1;  // Largeur simple
     } else if ((ch & 0xE0) == 0xC0) {
-      charLen = 2; // 2-byte UTF-8
-      width += 1;  // Single-width
+      charLen = 2; // UTF-8 2 octets
+      width += 1;  // Largeur simple
     } else if ((ch & 0xF0) == 0xE0) {
-      charLen = 3; // 3-byte UTF-8
-      width += 1;  // Single-width
+      charLen = 3; // UTF-8 3 octets
+      width += 1;  // Largeur simple
     } else if ((ch & 0xF8) == 0xF0) {
-      charLen = 4; // 4-byte UTF-8
-      width += 2;  // Double-width (e.g., emoji, CJK)
+      charLen = 4; // UTF-8 4 octets
+      width += 2;  // Largeur double (par exemple, emoji, CJK)
     } else {
-      throw std::runtime_error("Invalid UTF-8 encoding detected");
+      throw std::runtime_error("Encodage UTF-8 invalide détecté");
     }
     if (ch == '\033' && line[i + 1] == '[' && line[i + 2] == '3' &&
         line[i + 3] == '8') {
@@ -38,7 +38,7 @@ size_t getDisplayWidth(const std::string &line) {
       width += 1;
     }
 
-    i += charLen; // Move to the next character
+    i += charLen; // Passer au caractère suivant
   }
   return width;
 }
@@ -49,7 +49,7 @@ void printBoxedText(const std::string &text, const std::string &color,
 
   std::cout << color;
 
-  // Split the text into lines
+  // Diviser le texte en lignes
   std::vector<std::string> lines;
   std::istringstream stream(text);
   std::string line;
@@ -63,7 +63,7 @@ void printBoxedText(const std::string &text, const std::string &color,
     }
   }
 
-  // Determine the box width (including padding)
+  // Déterminer la largeur de la boîte (y compris le padding)
   size_t boxWidth = maxLength + 4 + padding_x;
 
   for (std::size_t i = 0; i < margin_y; i++) {
@@ -77,7 +77,7 @@ void printBoxedText(const std::string &text, const std::string &color,
   for (std::size_t i = 0; i < margin_x; i++) {
     std::cout << " ";
   }
-  // Print the top border
+  // Imprimer la bordure supérieure
   std::cout << "╭" << floor_ceil << "╮" << std::endl;
 
   for (std::size_t i = 0; i < padding_y; i++) {
@@ -88,7 +88,7 @@ void printBoxedText(const std::string &text, const std::string &color,
               << std::endl;
   }
 
-  // Print each line of text
+  // Imprimer chaque ligne de texte
   for (const auto &l : lines) {
     for (std::size_t i = 0; i < margin_x; i++) {
       std::cout << " ";
@@ -107,7 +107,7 @@ void printBoxedText(const std::string &text, const std::string &color,
 
     if (a % 2 == 1)
       a++;
-    // Add padding spaces if the line is shorter than the maximum length
+    // Ajouter des espaces de padding si la ligne est plus courte que la longueur maximale
     std::cout << std::string(a / 2, ' ') << " │" << std::endl;
   }
   for (std::size_t i = 0; i < padding_y; i++) {
@@ -121,7 +121,7 @@ void printBoxedText(const std::string &text, const std::string &color,
   for (std::size_t i = 0; i < margin_x; i++) {
     std::cout << " ";
   }
-  // Print the bottom border
+  // Imprimer la bordure inférieure
   std::cout << "╰" << floor_ceil << "╯" << std::endl;
   for (std::size_t i = 0; i < margin_y; i++) {
     std::cout << std::endl;
